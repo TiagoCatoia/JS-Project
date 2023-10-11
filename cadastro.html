@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src="https://kit.fontawesome.com/3e656cdace.js" crossorigin="anonymous"></script>
+    <title>Cadastro</title>
+</head>
+<body>
+    <div id="container">
+        <div id="divTextTitulo">
+            <h4 style="margin: 0;">Página de Cadastro</h4>
+        </div><br>
+        <div id="divUsuario">
+            <i id="Icon" class="fa-regular fa-user"></i>
+            <input type="text" id="usuario" name="usuario" placeholder="Escolha um Usuário">
+        </div>
+        <div id="divSenha">
+            <i id="Icon" class="fa-solid fa-unlock"></i>
+            <input type="password" id="senha" name="senha" placeholder="Escolha uma Senha">
+        </div>
+        <div id="divEnvio">
+            <button type="submit" id="btnEnvio">Cadastrar</button>
+        </div>
+    </div>
+    <script>
+        var logins = []
+        var cadastrar = document.querySelector("#btnEnvio")
+        cadastrar.addEventListener("click", finalizarCadastro)                     ////////// VERIFICAR SE JÁ ESTA CADASTRADO
+
+        // O localStorage armazena os dados no próprio navegador
+        function finalizarCadastro() {
+            // Obtem os valores de usuário e senha do formulário
+            var usuario = document.querySelector("#usuario").value
+            var senha = document.querySelector("#senha").value
+
+            // Verifica se os campos de usuário e senha estão preenchidos
+            if (usuario === "" || senha === "") {
+            alert("Preencha corretamente o Usuário e a Senha!")
+            } else {
+                // Cria um objeto com os dados de login
+                var login = { usn: usuario, psw: senha }
+
+                // Adiciona o objeto à lista de logins
+                logins.push(login)
+
+                // Converte a lista de logins em uma string JSON
+                var loginsData = JSON.stringify(logins)
+
+                // Armazena a string JSON no localStorage
+                localStorage.setItem("loginsData", loginsData)
+
+                // Exibe uma mensagem de sucesso
+                alert("Cadastro realizado com sucesso! Voltando para página de Login...")
+                window.location.href = "index.html"
+            }
+        }
+    </script>
+</body>
+</html>

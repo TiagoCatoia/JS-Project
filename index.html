@@ -4,159 +4,80 @@
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Dashboard</title>
-    <style>
-        body {
-            background-color: #2f3438;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        #container {
-            width: 20%;
-            height: 40%;
-            background-color: #262B2F;
-            border-radius: 20px;
-            box-shadow: 5px 5px 5px black;
-            padding: 2%;
-            font-size: 25px;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        #usuario, #senha {
-            color: gray;
-            opacity: 50%;
-            width: 200px;
-            height: 20px;
-        }
-        #divUsuario {
-            margin-bottom: 10%;
-        }
-        #divSenha {
-            margin-top: 10%;
-        }
-        #divEnvio {
-            margin-top: 10%;
-            width: 20%;
-        }
-        #btnEnvio {
-            font-size: 20px;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            font-weight: bold;
-            width: 90%;
-            height: 90%;
-            cursor: pointer;
-        }
-        #dashboard {
-            width: 90%;
-            height: 85%;
-            background-color: #262B2F;
-            display: flex;
-            flex-direction: row;
-        }
-        #divEsq {
-            width: 10%;
-            height: 90%;
-            background-color: #2f3438;
-            border-radius: 20px;
-            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.514);
-            padding: 2%;
-            font-size: 25px;
-            display: flex;
-            flex-direction: column;
-        }
-        #user {
-            border-bottom: 2px solid rgba(60, 239, 245, 0.966);
-
-        }
-        #divGraf {
-            width: 80%;
-            height: 90%;
-            background-color: #2f3438;
-            border-radius: 20px;
-            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.514);
-            padding: 2%;
-            margin-left: 2%;
-        }
-        #divCab {
-            width: 95%;
-            height: 30%;
-            padding: 2%;
-            margin-left: 2%;
-            font-size: 80%;
-            color: white;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            text-align: left;
-        }
-        #divCab h2 {
-            text-align: center;
-        }
-        #Ano2022 {
-            opacity: 60%;
-            padding: 4%;
-            border-radius: 20px;
-        }
-        #Ano2022:hover {
-            background-color: rgba(60, 239, 245, 0.966);
-            cursor: pointer;
-            opacity: 100%;
-        }
-        #Ano2023 {
-            opacity: 60%;
-            padding: 4%;
-            border-radius: 20px;
-        }
-        #Ano2023:hover {
-            background-color: rgba(60, 239, 245, 0.966);
-            cursor: pointer;
-            opacity: 100%;
-        }
-        #grafico {
-            width: 100%;
-            height: 100%;
-        }
-    </style>
+    <script src="https://kit.fontawesome.com/3e656cdace.js" crossorigin="anonymous"></script>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <title>Dashboard PETR3</title>
 </head>
 <body>
+    <div id="divImage">
+        <img id="image" src="https://media.istockphoto.com/vectors/blue-user-icon-in-flat-style-with-long-shadow-account-button-vector-id1133308970?k=20&m=1133308970&s=170667a&w=0&h=krL6CYdlFyw73580I4uiRWuxAE4-CmZp7ZQTrKWVFvk=">
+    </div>
     <div id="container">
+        <div id="divTextTitulo">
+            <h4 style="margin: 0;">Página de Login</h4>
+        </div><br>
         <div id="divUsuario">
-            <label for="usuario">Usuário:</label>
-            <input type="text" id="usuario" name="usuario" value="Tiago Catoia" placeholder="Digite seu usuário">
+            <i id="Icon" class="fa-regular fa-user"></i>
+            <input type="text" id="usuario" name="usuario" placeholder="Usuário">
         </div>
         <div id="divSenha">
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" value="senha123" placeholder="Digite sua senha">
+            <i id="Icon" class="fa-solid fa-unlock"></i>
+            <input type="password" id="senha" name="senha" placeholder="Senha">
         </div>
         <div id="divEnvio">
-            <button type="submit" id="btnEnvio">Enviar</button>
+            <button type="submit" id="btnEnvio">Entrar</button>
+        </div>
+        <div id="divCadastro">
+            <a id="textCadastro" href="cadastro.html">Cadastrar Usuário</a>
         </div>
     </div>
     <script>
+    // node index.js para iniciar o servidor
+    /*
+    Gráfico de Linha:
+    Gap de abertura: Diferença entre o preço de fechamento (Close) e o preço de abertura (Open),
+    usada para avaliar o comportamento de preços em um dia específico em relação ao dia anterior.
+
+    - Gap de Alta (Bullish Gap): O preço de abertura é maior do que o preço de fechamento do dia anterior. Indica um sentimento positivo no mercado.
+
+    - Gap de Baixa (Bearish Gap): O preço de abertura é menor do que o preço de fechamento do dia anterior. Indica um sentimento negativo no mercado.
+
+    - Gap de Exaustão (Exhaustion Gap): Ocorre após uma tendência significativa e indica uma possível reversão da tendência atual.
+    */
         var btnSubmit = document.querySelector("#btnEnvio")
         btnSubmit.addEventListener("click", function () {
             login(btnSubmit)
         })
 
-        function login(btnSubmit) {
+        function login() {
             let usuario = document.querySelector("#usuario").value
             let senha = document.querySelector("#senha").value
 
-            if (usuario === "") {
-                alert("Digite corretamente o Usuário!")
-            } else if (senha === "") {
-                alert("Digite corretamente a Senha!")
+            if (usuario === "" || senha === "") {
+                alert("Preencha corretamente o Usuário e a Senha!")
             } else {
-                let login = {usn:usuario, psw:senha}
+                // Obtém a lista de logins do localStorage
+                var loginsData = localStorage.getItem("loginsData")
+                var logins = []
 
-                container = document.querySelector("#container")
-                container.remove()
+                if (loginsData) {
+                    // Converte a string JSON em uma lista de logins
+                    logins = JSON.parse(loginsData)
+                }
 
-                dashboard(usuario)
+                // Verifica se o login está cadastrado
+                var loginEncontrado = logins.find(login => login.usn === usuario && login.psw === senha)
+
+                if (loginEncontrado) {
+                    container = document.querySelector("#container")
+                    container.remove()                                                                      ////////////////////////////////EM VEZ DO REMOVE TROAR DE ARQUIVOS
+                    divImg = document.querySelector("#divImage")
+                    divImg.remove()
+
+                    dashboard(usuario) // Passa o usuário como parâmetro para a função dashboard
+                } else {
+                    alert("Login não cadastrado. Verifique seu Usuário e Senha.")
+                }
             }
         }
 
@@ -168,31 +89,46 @@
             body.style.backgroundColor = "#262B2F"
 
             let divEsquerda = document.createElement("div")
-            divEsquerda.id = "divEsq"
+            divEsquerda.id = "divEsq"                               /////////////////// NA DIV ESQUERDA CRIAR UM BOTAO PAR VOLTAR PARA TELA DE LOGIN
             dashboard.appendChild(divEsquerda)
 
             let divGrafico = document.createElement("div")
             divGrafico.id = "divGraf"
             dashboard.appendChild(divGrafico)
+            
+            divGrafico.innerHTML = "<div id='escolhaAnoDeAnalise'><h1>Escolha um Ano de Análise</h1></div>"
 
             let divCabecalho = document.createElement("div")
             divCabecalho.id = "divCab"
-            divCabecalho.innerHTML = `<h2 id="user">${usuario}</h2><br><h3>Ano de Análise</h3><h4 id="Ano2022">2022</h4><h4 id="Ano2023">2023</h4>`
+            divCabecalho.innerHTML = `<h2 id="user">${usuario}</h2><br><h3 id="textGap">PETR3<br>Petroleo Brasileiro SA Petrobras<br></h3><br><h3 id="analiseText">Ano de Análise</h3><h4 id="Ano2022">2022</h4><h4 id="Ano2023">2023</h4>`
             divEsquerda.appendChild(divCabecalho)
 
             let Ano2022 = document.querySelector("#Ano2022")
             let Ano2023 = document.querySelector("#Ano2023")
 
-            let graficoCriado = false
+            let graficoCriado2022 = false
             Ano2022.addEventListener("click", function() {
-                if (!graficoCriado) {
-                    carregaDados()
-                    graficoCriado = true
+                if (!graficoCriado2022) {
+                    divGrafico.innerHTML = ""
+                    let ano = "2022"
+                    carregaDados(ano)
+                    graficoCriado2022 = true
+                    graficoCriado2023 = false
+                }
+            })
+            let graficoCriado2023 = false
+            Ano2023.addEventListener("click", function() {
+                if (!graficoCriado2023) {
+                    divGrafico.innerHTML = ""
+                    let ano = "2023"
+                    carregaDados(ano)
+                    graficoCriado2023 = true
+                    graficoCriado2022 = false
                 }
             })
         }
         
-        function carregaDados() {
+        function carregaDados(ano) {
             // Acessando os dados da PETR3
             fetch("http://localhost:8000/historico/PETR3")
             .then((resposta)=> {
@@ -200,9 +136,8 @@
                 return resposta.json()
             })
             .then((cotacao)=>{
-                console.log(cotacao[0])
                 let cotacaoAnos = cotacao
-                criaGrafico(cotacao)
+                criaGrafico(cotacao, ano)
             })
             .catch((erro)=>{
                 console.log(`Erro na requisição: ${erro}`)
@@ -212,42 +147,61 @@
             })
         }
 
-        function criaGrafico(cotacao) {
+        function criaGrafico(cotacao, ano) {
             let divGrafico = document.getElementById('divGraf')
             let canvas = document.createElement("canvas")
+            canvas.id = "canvas"
             
             canvas.id = "grafico"
             divGrafico.appendChild(canvas)
 
             // Formatando os dados para serem usados no gráfico
-            meses = []
-            meses2022 = []
-            meses2023 = []
+            let meses = []
+            let meses2022 = []
+            let meses2023 = []
+            let precoAbertura = []
+            let precoFechamento = []
+            let precoAbertura2022 = []
+            let precoFechamento2022 = []
+            let precoAbertura2023 = []
+            let precoFechamento2023 = []
             let i = 0
             for (i=0; i<250; i++) {
                 meses.push(cotacao[i].Date)
+                precoAbertura.push(cotacao[i].Open)
+                precoFechamento.push(cotacao[i].Close)
             }
-            for (i=0; i<250; i++) {
-                if (meses[i][3] === "2") {
-                    meses2022.push(meses[i][5] + meses[i][6] + "/" + meses[i][8] + meses[i][9])
-                } else {
-                    meses2023.push(meses[i][5] + meses[i][6] + "/" + meses[i][8] + meses[i][9])
+            if (ano === "2022") {
+                for (i=0; i<250; i+=2) { // dados de 59 dias em 2022 (usando metade)
+                    if (meses[i][3] === "2") { // caso o ano seja 2022
+                        meses2022.push(meses[i][5] + meses[i][6] + "/" + meses[i][8] + meses[i][9])
+                        precoAbertura2022.push(precoAbertura[i])
+                        precoFechamento2022.push(precoFechamento[i])
+                    }
                 }
+                var gapDeAbertura = calcularGap(precoAbertura2022, precoFechamento2022) // Calcula o valor do gab de abertura do ano 2022
+                var labels = meses2022// Rótulos para o eixo X
+            } else {
+                for (i=0; i<250; i+=6) { // dados de 191 dias de 2023 (usando 1/6)
+                    if (meses[i][3] === "3") { // caso o ano seja 2023
+                        meses2023.push(meses[i][5] + meses[i][6] + "/" + meses[i][8] + meses[i][9])
+                        precoAbertura2023.push(precoAbertura[i])
+                        precoFechamento2023.push(precoFechamento[i])
+                    }
+                }
+                var gapDeAbertura = calcularGap(precoAbertura2023, precoFechamento2023) // Calcula o valor do gab de abertura do ano 2023
+                var labels = meses2023// Rótulos para o eixo X
             }
-            console.log(meses2022)
-            console.log(meses2023)
 
-            ///////////////// DIMINUIR A QUANTIDADE DE DADOS UTILIZADOS /////////////////
-
-            const labels = meses2022// Rótulos para o eixo X
-            const dataPoints = [65, 59, 80, 81, 56, 55, 40] // Valores para o eixo Y
+            // Implementação do Gráfico
+            const dataPoints = gapDeAbertura // Valores para o eixo Y
 
             const config = {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'PETR3 Petroleo Brasileiro SA Petrobras',
+                        label: `Gaps de Abertura PETR3`,
                         data: dataPoints,
                         fill: false,
                         borderColor: 'rgb(75, 192, 192)',
@@ -270,8 +224,14 @@
             // Renderiza o gráfico no canvas
             const ctx = canvas.getContext('2d');
             new Chart(ctx, config);
+        }
 
-
+        function calcularGap(precoAberturaAno, precoFechamentoAno) {
+            let gapDeAbertura = []
+            for (let i=0; i<precoAberturaAno.length; i++) {
+                gapDeAbertura.push(precoFechamentoAno[i] - precoAberturaAno[i])
+            }
+            return gapDeAbertura
         }
     </script>
 </body>
