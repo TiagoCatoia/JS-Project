@@ -9,26 +9,30 @@
     <title>Dashboard PETR3</title>
 </head>
 <body>
-    <div id="divImage">
-        <img id="image" src="https://media.istockphoto.com/vectors/blue-user-icon-in-flat-style-with-long-shadow-account-button-vector-id1133308970?k=20&m=1133308970&s=170667a&w=0&h=krL6CYdlFyw73580I4uiRWuxAE4-CmZp7ZQTrKWVFvk=">
-    </div>
     <div id="container">
-        <div id="divTextTitulo">
-            <h4 style="margin: 0;">Página de Login</h4>
-        </div><br>
-        <div id="divUsuario">
-            <i id="Icon" class="fa-regular fa-user"></i>
-            <input type="text" id="usuario" name="usuario" placeholder="Usuário">
+        <div id="divPlataforma">
+            <h1>
+                Faça seu login
+                <br>
+                na plataforma
+            </h1>
         </div>
-        <div id="divSenha">
-            <i id="Icon" class="fa-solid fa-unlock"></i>
-            <input type="password" id="senha" name="senha" placeholder="Senha">
-        </div>
-        <div id="divEnvio">
-            <button type="submit" id="btnEnvio">Entrar</button>
-        </div>
-        <div id="divCadastro">
-            <a id="textCadastro" href="cadastro.html">Cadastrar Usuário</a>
+        <div id="containerLogin">
+            <div id="divUsuario">
+                <i id="Icon" class="fa-regular fa-user"></i>
+                <input type="text" id="usuario" name="usuario" placeholder="Usuário" value="Tiago Catoia">
+            </div>
+            <div id="divSenha">
+                <i id="Icon" class="fa-solid fa-unlock"></i>
+                <input type="password" id="senha" name="senha" placeholder="Senha" value="senha">
+            </div>
+            <div id="divEnvio">
+                <button type="submit" id="btnEnvio">Entrar</button>
+            </div><br>
+            <div id="linhaDivisao"></div><br>
+            <div id="divCadastro">
+                Não tem uma conta?<a id="textCadastro" href="cadastro.html">Registre-se</a>
+            </div>
         </div>
     </div>
     <script>
@@ -71,8 +75,6 @@
                 if (loginEncontrado) {
                     container = document.querySelector("#container")
                     container.remove()                                                                      ////////////////////////////////EM VEZ DO REMOVE TROAR DE ARQUIVOS
-                    divImg = document.querySelector("#divImage")
-                    divImg.remove()
 
                     dashboard(usuario) // Passa o usuário como parâmetro para a função dashboard
                 } else {
@@ -86,7 +88,6 @@
             let dashboard = document.createElement("div")
             dashboard.id = "dashboard"
             body.appendChild(dashboard)
-            body.style.backgroundColor = "#262B2F"
 
             let divEsquerda = document.createElement("div")
             divEsquerda.id = "divEsq"                               /////////////////// NA DIV ESQUERDA CRIAR UM BOTAO PAR VOLTAR PARA TELA DE LOGIN
@@ -110,6 +111,7 @@
             Ano2022.addEventListener("click", function() {
                 if (!graficoCriado2022) {
                     divGrafico.innerHTML = ""
+                    Ano2022.style.borderColor = "rgb(51%, 34%, 90%);"
                     let ano = "2022"
                     carregaDados(ano)
                     graficoCriado2022 = true
@@ -204,7 +206,7 @@
                         label: `Gaps de Abertura PETR3`,
                         data: dataPoints,
                         fill: false,
-                        borderColor: 'rgb(75, 192, 192)',
+                        borderColor: 'rgb(51%, 34%, 90%)',
                         tension: 0.1
                     }]
                 },
