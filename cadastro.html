@@ -29,40 +29,55 @@
             </div><br>
             <div id="linhaDivisao"></div><br>
             <div id="divCadastro">
-                Não tem uma conta?<a id="textCadastro" href="cadastro.html">Registre-se</a>
+                Voltar para página de<a id="textCadastro" href="login.html">Login</a>
             </div>
         </div>
     </div>
     <script>
-        var logins = []
-        var cadastrar = document.querySelector("#btnEnvio")
-        cadastrar.addEventListener("click", finalizarCadastro)                     ////////// VERIFICAR SE JÁ ESTA CADASTRADO
+        // verifique se existem dados de login salvos no localStorage
+        var loginsData = localStorage.getItem("loginsData")
 
-        // O localStorage armazena os dados no próprio navegador
+        if (loginsData) {
+            // se houver dados no localStorage, converta a string JSON em uma lista de logins
+            logins = JSON.parse(loginsData) // se não houver dados no localStorage retornará null, logo logins vai ser uma lista vazia
+        }
+
+        var cadastrar = document.querySelector("#btnEnvio")
+        cadastrar.addEventListener("click", finalizarCadastro)
+
+        // o localStorage armazena os dados no próprio navegador
         function finalizarCadastro() {
-            // Obtem os valores de usuário e senha do formulário
+            // obtem os valores de usuário e senha do formulário
             var usuario = document.querySelector("#usuario").value
             var senha = document.querySelector("#senha").value
 
-            // Verifica se os campos de usuário e senha estão preenchidos
+            // verifica se os campos de usuário e senha estão preenchidos
             if (usuario === "" || senha === "") {
             alert("Preencha corretamente o Usuário e a Senha!")
             } else {
-                // Cria um objeto com os dados de login
-                var login = { usn: usuario, psw: senha }
+                // verifique se o usuário já está cadastrad
+                var usuarioJaCadastrado = logins.some(function(login) { //  método some para verificar se algum dos objetos na lista logins possui o mesmo nome de usuário (usn) que está sendo cadastrado
+                    return login.usn === usuario
+                })
+                // some() é um método em JavaScript que é usado em arrays. Ele verifica se pelo menos um elemento do array atende a uma determinada condição e retorna true se pelo menos um elemento passar na condição, ou false se nenhum elemento passar
+                if (usuarioJaCadastrado) {
+                    alert("Este Usuário já está Cadastrado!")
+                } else {
+                    // cria um objeto com os dados de login
+                    var login = { usn: usuario, psw: senha }
 
-                // Adiciona o objeto à lista de logins
-                logins.push(login)
+                    // adiciona o objeto à lista de logins
+                    logins.push(login)
 
-                // Converte a lista de logins em uma string JSON
-                var loginsData = JSON.stringify(logins)
+                    // converte a lista de logins em uma string JSON
+                    var loginsData = JSON.stringify(logins)
 
-                // Armazena a string JSON no localStorage
-                localStorage.setItem("loginsData", loginsData)
+                    // armazena a string JSON no localStorage
+                    localStorage.setItem("loginsData", loginsData)
 
-                // Exibe uma mensagem de sucesso
-                alert("Cadastro realizado com sucesso! Voltando para página de Login...")
-                window.location.href = "index.html"
+                    alert("Cadastro realizado com sucesso! Voltando para página de Login...")
+                    window.location.href = "login.html"
+                }
             }
         }
     </script>
