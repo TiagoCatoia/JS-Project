@@ -13,7 +13,7 @@
     /*
     Gráfico de Linha:
     Gap de abertura: Diferença entre o preço de fechamento (Close) e o preço de abertura (Open),
-    usada para avaliar o comportamento de preços em um dia específico em relação ao dia anterior.
+    usada para avaliar o comportamento de preços em um dia específico em relação aos dias anteriores.
 
     - Gap de Alta (Bullish Gap): O preço de abertura é maior do que o preço de fechamento do dia anterior. Indica um sentimento positivo no mercado.
 
@@ -129,7 +129,7 @@
                 precoFechamento.push(cotacao[i].Close)
             }
             if (ano === "2022") {
-                for (i=0; i<250; i+=2) { // dados de 59 dias em 2022 (usando metade)
+                for (i=0; i<250; i++) { // dados de 59 dias em 2022 (Usando metade: i+=2)
                     if (meses[i][3] === "2") { // caso o ano seja 2022
                         meses2022.push(meses[i][5] + meses[i][6] + "/" + meses[i][8] + meses[i][9])
                         precoAbertura2022.push(precoAbertura[i])
@@ -139,7 +139,7 @@
                 var gapDeAbertura = calcularGap(precoAbertura2022, precoFechamento2022) // Calcula o valor do gab de abertura do ano 2022
                 var labels = meses2022// Rótulos para o eixo X
             } else {
-                for (i=0; i<250; i+=6) { // dados de 191 dias de 2023 (usando 1/6)
+                for (i=0; i<250; i++) { // dados de 191 dias de 2023 (Usando 1/6: i+=6)
                     if (meses[i][3] === "3") { // caso o ano seja 2023
                         meses2023.push(meses[i][5] + meses[i][6] + "/" + meses[i][8] + meses[i][9])
                         precoAbertura2023.push(precoAbertura[i])
