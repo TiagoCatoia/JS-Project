@@ -5,22 +5,18 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/3e656cdace.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <title>Dashboard</title>
 </head>
 <body>
     <script>
     // node index.js para iniciar o servidor
-    /*
-    Gráfico de Linha:
-    Gap de abertura: Diferença entre o preço de fechamento (Close) e o preço de abertura (Open),
-    usada para avaliar o comportamento de preços em um dia específico em relação aos dias anteriores.
-
-    - Gap de Alta (Bullish Gap): O preço de abertura é maior do que o preço de fechamento do dia anterior. Indica um sentimento positivo no mercado.
-
-    - Gap de Baixa (Bearish Gap): O preço de abertura é menor do que o preço de fechamento do dia anterior. Indica um sentimento negativo no mercado.
-
-    - Gap de Exaustão (Exhaustion Gap): Ocorre após uma tendência significativa e indica uma possível reversão da tendência atual.
-    */
         var urlParams = new URLSearchParams(window.location.search)
         var usuario = urlParams.get("parametro")
 
@@ -28,67 +24,207 @@
             window.location.href = "login.html"
         }
         dashboard(usuario)
+
         function dashboard(usuario) {
 
-            let body = document.querySelector("body")
-            let dashboard = document.createElement("div")
+            var body = document.querySelector("body")
+            var dashboard = document.createElement("div")
             dashboard.id = "dashboard"
             body.appendChild(dashboard)
 
-            let divEsquerda = document.createElement("div")
+            // Cria a div da esquerda do gráfico com as escolhas
+            var divEsquerda = document.createElement("div")
             divEsquerda.id = "divEsq"
             dashboard.appendChild(divEsquerda)
 
-            let divGrafico = document.createElement("div")
+            // Cria a div em que os gráficos aparecerão
+            var divGrafico = document.createElement("div")
             divGrafico.id = "divGraf"
             dashboard.appendChild(divGrafico)
             
-            divGrafico.innerHTML = "<div id='escolhaAnoDeAnalise'><h1>Escolha um Ano de Análise</h1></div>"
+            // Cria a escolha do gráfico
+            function escolhaDosGraficos() {
+                divGrafico.innerHTML = 
+                `<div id='graficoArea'>
+                    <h1>📈Dashboard📉</h1>
+                    <div id='escolhaGrafico'>
+                        <div id="gapDeAbertura"><h2>Gap de Abertura<h2><i id='iconGraf' class="fa-solid fa-chart-line"></i></div>
+                        <div id="outroGrafico"><h2>Outro Grafico<h2><i id='iconGraf' class="fa-solid fa-chart-simple"></i></div>
+                    </div>
+                </div>`
+            }
+            escolhaDosGraficos()
 
-            let divCabecalho = document.createElement("div")
-            divCabecalho.id = "divCab"
-            divCabecalho.innerHTML =
-            `<h2 id="user">${usuario}</h2>
+            var conteudoDivEsquerda = document.createElement("div")
+            conteudoDivEsquerda.id = "conteudoDivEsquerda"
+
+            // Cria o conteúdo da barra Lateral
+            conteudoDivEsquerda.innerHTML =
+            `<i id='iconDivEsq' class="fa-solid fa-user"></i>
+            <h2 id="user">${usuario}</h2>
             <br>
-            <h3 id="textGap">PETR3<br>Petroleo Brasileiro SA Petrobras<br></h3>
+            <h3 id="acaoAnalisada">Ação Analisada:<br></h3>
+            <h3 id="acaoAnalisadaLinha"><br></h3>
             <br>
-            <h3 id="analiseText">Ano de Análise</h3>
-            <h4 id="Ano2022">2022</h4><h4 id="Ano2023">2023</h4>`
-            let divBtnVoltarLogin = document.createElement("div")
-            divBtnVoltarLogin.id = "btnVoltar"
-            divBtnVoltarLogin.innerHTML = `<a id="btnVoltar" href="login.html">Voltar</a>`
-            divEsquerda.appendChild(divCabecalho)
-            divEsquerda.appendChild(divBtnVoltarLogin)
+            <h3 id="dataAnalisada">Período Analisado:</h3>
+            <h4 id="dataAnalisadaLinha"></h4>
+            <h3 id="tipoGraf">Gráfico:</h3>
+            <h3 id="linhaTipoGraf"></h3>`
 
-            let Ano2022 = document.querySelector("#Ano2022")
-            let Ano2023 = document.querySelector("#Ano2023")
+            divEsquerda.appendChild(conteudoDivEsquerda)
 
-            let graficoCriado2022 = false
-            Ano2022.addEventListener("click", function() {
-                if (!graficoCriado2022) {
-                    divGrafico.innerHTML = ""
-                    Ano2022.style.borderColor = "rgb(51%, 34%, 90%);"
-                    let ano = "2022"
-                    carregaDados(ano)
-                    graficoCriado2022 = true
-                    graficoCriado2023 = false
-                }
+            // Volta para tela de login se apertar o ícone de usuário
+            var userIcon = document.querySelector("#iconDivEsq")
+            userIcon.addEventListener("click", function() {
+                window.location.href = "login.html"
             })
-            let graficoCriado2023 = false
-            Ano2023.addEventListener("click", function() {
-                if (!graficoCriado2023) {
-                    divGrafico.innerHTML = ""
-                    let ano = "2023"
-                    carregaDados(ano)
-                    graficoCriado2023 = true
-                    graficoCriado2022 = false
-                }
+
+            // 1º Opção dos Gráficos (divGrafico)
+            var gapDeAbertura = document.querySelector("#gapDeAbertura")
+            gapDeAbertura.addEventListener("click", function() {
+
+                var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
+                linhaTipoGraf.innerText = "Gap de Abertura"
+                opcoesParaGrafico()
             })
+
+            // 2º Opção dos Gráficos (divGrafico)
+            var outroGrafico = document.querySelector("#outroGrafico")
+            outroGrafico.addEventListener("click", function() {
+                var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
+                linhaTipoGraf.innerText = "Outro Gráfico"
+                opcoesParaGrafico()
+            })
+
+            function opcoesParaGrafico(){
+                var conteudoEscolhaGrafico = document.createElement("div")
+                conteudoEscolhaGrafico.id = "conteudoEscolhaGrafico"
+
+                var escolhaGrafico = document.querySelector("#escolhaGrafico")
+                escolhaGrafico.innerHTML = ""
+                
+                var opcaoesAcoes = document.createElement("div")
+                opcaoesAcoes.id = "opcaoesAcoes"
+                var divPetr3 = document.createElement("div")
+                divPetr3.id = "divPetr3"
+                divPetr3.innerHTML = "<h2>PETR3<h2>"
+                var divBbas3 = document.createElement("div")
+                divBbas3.id = "divBbas3"
+                divBbas3.innerHTML = "<h2>BBAS3<h2>"
+
+                divPetr3.addEventListener("click", function() {
+                    divBbas3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divPetr3.style.backgroundColor = "rgb(152, 121, 224)"
+                    // Envia a ação selecionada para a barra lateral (divEsquerda)
+                    acaoAnalisadaLinha.innerText = "PETR3"
+                })
+                divBbas3.addEventListener("click", function() {
+                    divPetr3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divBbas3.style.backgroundColor = "rgb(152, 121, 224)"
+                    // Envia a ação selecionada para a barra lateral (divEsquerda)
+                    acaoAnalisadaLinha.innerText = "BBAS3"
+                })
+
+                // Carrega o Calendário
+                var opcaoData = document.createElement("div")
+                opcaoData.id = "opcaoData"
+
+                opcaoData.innerHTML =
+                `
+                <h2>Intervalo de Tempo</h2>
+                <br>
+                <div id="reportrange">
+                    <i class="fa fa-calendar"></i>&nbsp
+                    <span></span> <i class="fa fa-caret-down"></i>
+                </div>
+                `
+                $(function() {
+                    var start = moment().subtract(29, 'days')
+                    var end = moment()
+
+                    function cb(start, end) {
+                        $('#reportrange span').html(' Desde ' + start.format('DD/MM/YYYY') + ' até ' + end.format('DD/MM/YYYY'))
+                        var intervaloSelecionado = $('#reportrange span').text()
+                        // Armazena o intervalo de tempo
+                        var inicioIntervalo = `${start.format('DD/MM/YYYY')}`
+                        var fimIntervalo = `${end.format('DD/MM/YYYY')}`
+                        console.log("Intervalo selecionado: " + `${start.format('DD/MM/YYYY')}` + " " + `${end.format('DD/MM/YYYY')}`)
+                        // Envia o intervalo selecionado para a barra lateral (divEsquerda)
+                        dataAnalisadaLinha.innerText = `${intervaloSelecionado}`
+                    }
+
+                    $('#reportrange').daterangepicker({
+                        startDate: start,
+                        endDate: end,
+                        locale: {
+                            format: 'DD/MM/YYYY',
+                            customRangeLabel: 'Intervalo Personalizado'
+                        },
+                        ranges: {
+                            'Hoje': [moment(), moment()],
+                            'Ontem': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                            'Últimos 7 dias': [moment().subtract(6, 'days'), moment()],
+                            'Últimos 30 dias': [moment().subtract(29, 'days'), moment()],
+                            'Esse Mês': [moment().startOf('month'), moment().endOf('month')],
+                            'Mês passado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                        }
+                    }, cb)
+
+                    cb(start, end)
+                })
+
+                // Container dos botões
+                var containerBotoes = document.createElement("div")
+                containerBotoes.id = "containerBotoes"
+
+                // Botão que vai retornar a resposta para carregar o gráfico
+                var btnCarregar = document.createElement("div")
+                btnCarregar.id = "btnCarregar"
+                btnCarregar.innerHTML = "<h3>Carregar</h3>"
+                containerBotoes.appendChild(btnCarregar)
+                btnCarregar.addEventListener("click", function() {
+                    criaGraficoGapDeAbertura() // CRIAR TRY CATCH PARA VERIFICAR SE A DATA E A AÇÂO FORAM SELECIONADOS *****************************************************
+                })
+                // Botão para Voltar para Escolha dos Gráficos
+                var btnVoltar = document.createElement("div")
+                btnVoltar.id = "btnVoltar"
+                btnVoltar.innerHTML = "<h3>Voltar</h3>"
+                containerBotoes.appendChild(btnVoltar)
+                btnVoltar.addEventListener("click", reatribuirEventos)
+
+                // Função para reatribuir eventos
+                function reatribuirEventos() {
+                    // Chama escolhaDosGraficos() novamente
+                    escolhaDosGraficos()
+
+                    gapDeAbertura = document.querySelector("#gapDeAbertura")
+                    outroGrafico = document.querySelector("#outroGrafico")
+
+                    gapDeAbertura.addEventListener("click", function() {
+                        var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
+                        linhaTipoGraf.innerText = "Gap de Abertura"
+                        opcoesParaGrafico()
+                    })
+
+                    outroGrafico.addEventListener("click", function() {
+                        var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
+                        linhaTipoGraf.innerText = "Outro Gráfico"
+                        opcoesParaGrafico()
+                    })
+                }
+                
+                opcaoesAcoes.appendChild(divPetr3)
+                opcaoesAcoes.appendChild(divBbas3)
+                conteudoEscolhaGrafico.appendChild(opcaoesAcoes)
+                conteudoEscolhaGrafico.appendChild(opcaoData)
+                conteudoEscolhaGrafico.appendChild(containerBotoes)
+                escolhaGrafico.appendChild(conteudoEscolhaGrafico)
+            }
         }
         
-        function carregaDados(ano) {
-            // Acessando os dados da PETR3
-            fetch("http://localhost:8000/historico/PETR3")
+        // Acessando os dados do ticker das ações do servidor
+        function carregaDados(ano, tickerAcao) {
+            fetch(`http://localhost:8000/historico/${tickerAcao}`)
             .then((resposta)=> {
                 console.log("Processando dados...")
                 return resposta.json()
@@ -105,7 +241,15 @@
             })
         }
 
-        function criaGrafico(cotacao, ano) {
+        /* Cria o Gráfico de Gap de Abertura: (Gráfico em Linha)
+
+        Diferença entre o preço de fechamento (Close) e o preço de abertura (Open),
+        usada para avaliar o comportamento de preços em um dia específico em relação aos dias anteriores.
+        - Gap de Alta (Bullish Gap): O preço de abertura é maior do que o preço de fechamento do dia anterior. Indica um sentimento positivo no mercado.
+        - Gap de Baixa (Bearish Gap): O preço de abertura é menor do que o preço de fechamento do dia anterior. Indica um sentimento negativo no mercado.
+        - Gap de Exaustão (Exhaustion Gap): Ocorre após uma tendência significativa e indica uma possível reversão da tendência atual.
+        */
+        function criaGraficoGapDeAbertura(cotacao, ano) {
             let divGrafico = document.getElementById('divGraf')
             let canvas = document.createElement("canvas")
             
@@ -179,8 +323,8 @@
             }
 
             // Renderiza o gráfico no canvas
-            const ctx = canvas.getContext('2d');
-            new Chart(ctx, config);
+            const ctx = canvas.getContext('2d')
+            new Chart(ctx, config)
         }
 
         function calcularGap(precoAberturaAno, precoFechamentoAno) {

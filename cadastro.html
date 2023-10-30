@@ -39,7 +39,10 @@
 
         if (loginsData) {
             // se houver dados no localStorage, converta a string JSON em uma lista de logins
-            logins = JSON.parse(loginsData) // se não houver dados no localStorage retornará null, logo logins vai ser uma lista vazia
+            var logins = JSON.parse(loginsData) // se não houver dados no localStorage retornará null, logo logins vai ser uma lista vazia
+        }
+        else {
+            var logins = []
         }
 
         var cadastrar = document.querySelector("#btnEnvio")
