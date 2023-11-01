@@ -46,9 +46,9 @@
             function escolhaDosGraficos() {
                 divGrafico.innerHTML = 
                 `<div id='graficoArea'>
-                    <h1>📈Dashboard📉</h1>
+                    <h1>Dashboard</h1>
                     <div id='escolhaGrafico'>
-                        <div id="gapDeAbertura"><h2>Gap de Abertura<h2><i id='iconGraf' class="fa-solid fa-chart-line"></i></div>
+                        <div id="variacaoPercentual"><h2>Variação Percentual<h2><i id='iconGraf' class="fa-solid fa-chart-line"></i></div>
                         <div id="outroGrafico"><h2>Outro Grafico<h2><i id='iconGraf' class="fa-solid fa-chart-simple"></i></div>
                     </div>
                 </div>`
@@ -83,12 +83,12 @@
             var tipoDoGrafico
 
             // 1º Opção dos Gráficos (divGrafico)
-            var gapDeAbertura = document.querySelector("#gapDeAbertura")
-            gapDeAbertura.addEventListener("click", function() {
+            var variacaoPercentual = document.querySelector("#variacaoPercentual")
+            variacaoPercentual.addEventListener("click", function() {
 
                 var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
-                linhaTipoGraf.innerText = "Gap de Abertura"
-                tipoDoGrafico = "Gap de Abertura"
+                linhaTipoGraf.innerText = "Variação Percentual"
+                tipoDoGrafico = "Variação Percentual"
                 opcoesParaGrafico(tipoDoGrafico)
             })
 
@@ -176,12 +176,12 @@
                             customRangeLabel: 'Intervalo Personalizado'
                         },
                         ranges: {
-                            'Hoje': [moment(), moment()],
-                            'Ontem': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                            'Últimos 7 dias': [moment().subtract(6, 'days'), moment()],                       ///////////////// MELHORAR AS OPÇÔES *****************************
-                            'Últimos 30 dias': [moment().subtract(29, 'days'), moment()],
                             'Esse Mês': [moment().startOf('month'), moment().endOf('month')],
-                            'Mês passado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                            'Mês passado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                            '2 Meses Atrás': [moment().subtract(2, 'months').startOf('month'), moment().subtract(2, 'months').endOf('month')],
+                            '3 Meses Atrás': [moment().subtract(3, 'months').startOf('month'), moment().subtract(3, 'months').endOf('month')],
+                            'Ano Passado': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+                            'Esse Ano': [moment().startOf('year'), moment().endOf('year')]
                         }
                     }, cb)
 
@@ -228,13 +228,13 @@
                     dataAnalisadaLinha.innerHTML = ""
                     escolhaDosGraficos()
 
-                    gapDeAbertura = document.querySelector("#gapDeAbertura")
+                    variacaoPercentual = document.querySelector("#variacaoPercentual")
                     outroGrafico = document.querySelector("#outroGrafico")
 
-                    gapDeAbertura.addEventListener("click", function() {
+                    variacaoPercentual.addEventListener("click", function() {
                         var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
-                        linhaTipoGraf.innerText = "Gap de Abertura"
-                        tipoDoGrafico = "Gap de Abertura"
+                        linhaTipoGraf.innerText = "Variação Percentual"
+                        tipoDoGrafico = "Variação Percentual"
                         opcoesParaGrafico(tipoDoGrafico)
                     })
 
@@ -257,15 +257,13 @@
         
         // Carrega e Formata os dados para serem usados no gráfico
         function carregarDados(inicioIntervalo, fimIntervalo, acaoAnalisada, tipoDoGrafico) {
-            // Variável que acessa todos os dados do arquivo
+            // Variável que acessa todos os dados do servidor
             let dadosAcoes
             // Array que vai armazenar todos os dados no intervalo específico
             let dadosNoIntervalo = []
             // Declare e inicialize as variáveis de intervalo
             let inicioData = new Date(inicioIntervalo)
             let fimData = new Date(fimIntervalo)
-            console.log(inicioData)
-            console.log(fimData)
 
             fetch(`http://localhost:8000/historico/${acaoAnalisada}`)
             .then((dadosAcoes)=> {
@@ -277,13 +275,13 @@
                 for (let i=0; i < dadosAcoes.length; i++) {
                     let dataVerificada = new Date(dadosAcoes[i].Date)
 
+                    // Verifica se a data está entre o período definido pelo usuário
                     if (dataVerificada >= inicioData && dataVerificada <= fimData) {
                         dadosNoIntervalo.push(dadosAcoes[i])
                     }
                 }
-                console.log(dadosNoIntervalo)
                 // Cria o Gráfico
-                criaGrafico(dadosNoIntervalo, tipoDoGrafico)
+                criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada)
             })
             .catch((erro)=>{
                 console.log(`Erro na requisição: ${erro}`)
@@ -293,102 +291,82 @@
             })
         }
 
-        /* Cria o Gráfico de Gap de Abertura: (Gráfico em Linha)
+        function criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada) {
 
-        Diferença entre o preço de fechamento (Close) e o preço de abertura (Open),
-        usada para avaliar o comportamento de preços em um dia específico em relação aos dias anteriores.
-        - Gap de Alta (Bullish Gap): O preço de abertura é maior do que o preço de fechamento do dia anterior. Indica um sentimento positivo no mercado.
-        - Gap de Baixa (Bearish Gap): O preço de abertura é menor do que o preço de fechamento do dia anterior. Indica um sentimento negativo no mercado.
-        - Gap de Exaustão (Exhaustion Gap): Ocorre após uma tendência significativa e indica uma possível reversão da tendência atual.
-        */
-        function criaGrafico(dadosNoIntervalo, tipoDoGrafico) {
+            if (tipoDoGrafico === "Variação Percentual"){
+                // Processa os dados para obter as Variações Percentuais e as Datas
+                var variacaoDatas = calcularVariacao(dadosNoIntervalo)
 
-            if (tipoDoGrafico === "Gap de Abertura"){
+                // Onde o Gráfico vai ser implementado
+                var divGraficoArea = document.getElementById('graficoArea')
+                var canvas = document.createElement("canvas")
+                canvas.id = "grafico"
+                divGraficoArea.appendChild(canvas)
+
+                // Separa as Datas e as Variações Percentuais
+                let datas = []
+                let variacoes = []
+                for (let i=0; i < variacaoDatas.length; i++) {
+                    datas.push(variacaoDatas[i].data)
+                    variacoes.push(variacaoDatas[i].variacao)
+                }
+
+                // Datas representa a linha horizontal (eixo y)
+                var labels = datas
+                // Variação Percentual representa a linha vertical (eixo x)
+                const dataPoints = variacoes
+
+                const config = {
+                    type: 'line', // Define o tipo do Gráfico como em Linha
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: `Variação Percentual ${acaoAnalisada}`,
+                            data: dataPoints, // dataPoints refere-se a uma coleção de pontos de dados
+                            fill: false,
+                            borderColor: 'rgb(51%, 34%, 90%)',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true, // Torna o gráfico responsivo
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: true,
+                                // Use uma função de retorno para formatar os valores do eixo Y
+                                ticks: {
+                                    callback: function (value) {
+                                        return value + '%'; // Adicione o símbolo de porcentagem
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Renderiza o gráfico no canvas
+                const ctx = canvas.getContext('2d')
+                new Chart(ctx, config)
 
             } else if (tipoDoGrafico === "Outro Gráfico") {
 
             }
-            var divGraficoArea = document.getElementById('graficoArea')
-            var canvas = document.createElement("canvas")
-            canvas.id = "grafico"
-            divGraficoArea.appendChild(canvas)
-
-            let meses = []
-            let meses2022 = []
-            let meses2023 = []
-            let precoAbertura = []
-            let precoFechamento = []
-            let precoAbertura2022 = []
-            let precoFechamento2022 = []
-            let precoAbertura2023 = []
-            let precoFechamento2023 = []
-            let i = 0
-            for (i=0; i<250; i++) {
-                meses.push(cotacao[i].Date)
-                precoAbertura.push(cotacao[i].Open)
-                precoFechamento.push(cotacao[i].Close)
-            }
-            if (ano === "2022") {
-                for (i=0; i<250; i++) { // dados de 59 dias em 2022 (Usando metade: i+=2)
-                    if (meses[i][3] === "2") { // caso o ano seja 2022
-                        meses2022.push(meses[i][5] + meses[i][6] + "/" + meses[i][8] + meses[i][9])
-                        precoAbertura2022.push(precoAbertura[i])
-                        precoFechamento2022.push(precoFechamento[i])
-                    }
-                }
-                var gapDeAbertura = calcularGap(precoAbertura2022, precoFechamento2022) // Calcula o valor do gab de abertura do ano 2022
-                var labels = meses2022// Rótulos para o eixo X
-            } else {
-                for (i=0; i<250; i++) { // dados de 191 dias de 2023 (Usando 1/6: i+=6)
-                    if (meses[i][3] === "3") { // caso o ano seja 2023
-                        meses2023.push(meses[i][5] + meses[i][6] + "/" + meses[i][8] + meses[i][9])
-                        precoAbertura2023.push(precoAbertura[i])
-                        precoFechamento2023.push(precoFechamento[i])
-                    }
-                }
-                var gapDeAbertura = calcularGap(precoAbertura2023, precoFechamento2023) // Calcula o valor do gab de abertura do ano 2023
-                var labels = meses2023// Rótulos para o eixo X
-            }
-
-            // Implementação do Gráfico
-            const dataPoints = gapDeAbertura // Valores para o eixo Y
-
-            const config = {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: `Gaps de Abertura PETR3`,
-                        data: dataPoints,
-                        fill: false,
-                        borderColor: 'rgb(51%, 34%, 90%)',
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                    responsive: true, // Torna o gráfico responsivo
-                    scales: {
-                        x: {
-                            beginAtZero: true
-                        },
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            }
-
-            // Renderiza o gráfico no canvas
-            const ctx = canvas.getContext('2d')
-            new Chart(ctx, config)
         }
 
-        function calcularGap(precoAberturaAno, precoFechamentoAno) {
-            let gapDeAbertura = []
-            for (let i=0; i<precoAberturaAno.length; i++) {
-                gapDeAbertura.push(precoFechamentoAno[i] - precoAberturaAno[i])
+        // Calcula a Variação Percentual entre o preço de abertura e fechamento para o período analisado
+        function calcularVariacao(dadosNoIntervalo) {
+            let variacaoDatas = []
+            let variacao
+            let data
+            for (let i=0; i<dadosNoIntervalo.length; i++) {
+                variacao = ( ( dadosNoIntervalo[i].Close - dadosNoIntervalo[i].Open ) / dadosNoIntervalo[i].Open ) * 100
+                data = dadosNoIntervalo[i].Date
+                variacaoDatas.push({variacao: variacao.toFixed(2), data: data})
             }
-            return gapDeAbertura
+            return variacaoDatas
         }
     </script>
 </body>
