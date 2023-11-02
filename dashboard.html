@@ -9,6 +9,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -49,7 +50,7 @@
                     <h1>Dashboard</h1>
                     <div id='escolhaGrafico'>
                         <div id="variacaoPercentual"><h2>Variação Percentual<h2><i id='iconGraf' class="fa-solid fa-chart-line"></i></div>
-                        <div id="outroGrafico"><h2>Outro Grafico<h2><i id='iconGraf' class="fa-solid fa-chart-simple"></i></div>
+                        <div id="analiseFinanceira"><h2>Análise Financeira<h2><i id='iconGraf' class="fa-solid fa-chart-simple"></i></div>
                     </div>
                 </div>`
             }
@@ -93,13 +94,40 @@
             })
 
             // 2º Opção dos Gráficos (divGrafico)
-            var outroGrafico = document.querySelector("#outroGrafico")
-            outroGrafico.addEventListener("click", function() {
+            var analiseFinanceira = document.querySelector("#analiseFinanceira")
+            analiseFinanceira.addEventListener("click", function() {
                 var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
-                linhaTipoGraf.innerText = "Outro Gráfico"
-                tipoDoGrafico = "Outro Gráfico"
+                linhaTipoGraf.innerText = "Análise Financeira"
+                tipoDoGrafico = "Análise Financeira"
+
                 opcoesParaGrafico(tipoDoGrafico)
             })
+
+            // Função para reatribuir eventos
+            function reatribuirEventos() {
+                // Chama escolhaDosGraficos() novamente
+                linhaTipoGraf.innerHTML = ""
+                acaoAnalisadaLinha.innerHTML = ""
+                dataAnalisadaLinha.innerHTML = ""
+                escolhaDosGraficos()
+
+                variacaoPercentual = document.querySelector("#variacaoPercentual")
+                analiseFinanceira = document.querySelector("#analiseFinanceira")
+
+                variacaoPercentual.addEventListener("click", function() {
+                    var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
+                    linhaTipoGraf.innerText = "Variação Percentual"
+                    tipoDoGrafico = "Variação Percentual"
+                    opcoesParaGrafico(tipoDoGrafico)
+                })
+
+                analiseFinanceira.addEventListener("click", function() {
+                    var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
+                    linhaTipoGraf.innerText = "Análise Financeira"
+                    tipoDoGrafico = "Análise Financeira"
+                    opcoesParaGrafico(tipoDoGrafico)
+                })
+            }
 
             function opcoesParaGrafico(tipoDoGrafico){
                 var conteudoEscolhaGrafico = document.createElement("div")
@@ -108,31 +136,76 @@
                 var escolhaGrafico = document.querySelector("#escolhaGrafico")
                 escolhaGrafico.innerHTML = ""
                 
-                var opcaoesAcoes = document.createElement("div")
-                opcaoesAcoes.id = "opcaoesAcoes"
+                var opcoesAcoes = document.createElement("div")
+                opcoesAcoes.id = "opcoesAcoes"
                 var divPetr3 = document.createElement("div")
                 divPetr3.id = "divPetr3"
                 divPetr3.innerHTML = "<h2>PETR3<h2>"
                 var divBbas3 = document.createElement("div")
                 divBbas3.id = "divBbas3"
                 divBbas3.innerHTML = "<h2>BBAS3<h2>"
+                var divItsa3 = document.createElement("div")
+                divItsa3.id = "divItsa3"
+                divItsa3.innerHTML = "<h2>ITSA3<h2>"
+                var divMglu3 = document.createElement("div")
+                divMglu3.id = "divMglu3"
+                divMglu3.innerHTML = "<h2>MGLU3<h2>"
+                var divVale3 = document.createElement("div")
+                divVale3.id = "divVale3"
+                divVale3.innerHTML = "<h2>VALE3<h2>"
 
                 // Armazena qual a ação vai ser escolhida pelo usuário
                 var acaoAnalisada
 
                 divPetr3.addEventListener("click", function() {
+                    divMglu3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divVale3.style.backgroundColor = "rgb(106, 80, 177)"
                     divBbas3.style.backgroundColor = "rgb(106, 80, 177)"
                     divPetr3.style.backgroundColor = "rgb(152, 121, 224)"
+                    divItsa3.style.backgroundColor = "rgb(106, 80, 177)"
                     // Envia a ação selecionada para a barra lateral (divEsquerda)
                     acaoAnalisadaLinha.innerText = "PETR3"
                     acaoAnalisada = "PETR3"
                 })
                 divBbas3.addEventListener("click", function() {
-                    divPetr3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divMglu3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divVale3.style.backgroundColor = "rgb(106, 80, 177)"
                     divBbas3.style.backgroundColor = "rgb(152, 121, 224)"
+                    divPetr3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divItsa3.style.backgroundColor = "rgb(106, 80, 177)"
                     // Envia a ação selecionada para a barra lateral (divEsquerda)
                     acaoAnalisadaLinha.innerText = "BBAS3"
                     acaoAnalisada = "BBAS3"
+                })
+                divItsa3.addEventListener("click", function() {
+                    divMglu3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divVale3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divBbas3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divPetr3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divItsa3.style.backgroundColor = "rgb(152, 121, 224)"
+                    // Envia a ação selecionada para a barra lateral (divEsquerda)
+                    acaoAnalisadaLinha.innerText = "ITSA3"
+                    acaoAnalisada = "ITSA3"
+                })
+                divMglu3.addEventListener("click", function() {
+                    divMglu3.style.backgroundColor = "rgb(152, 121, 224)"
+                    divVale3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divBbas3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divPetr3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divItsa3.style.backgroundColor = "rgb(106, 80, 177)"
+                    // Envia a ação selecionada para a barra lateral (divEsquerda)
+                    acaoAnalisadaLinha.innerText = "MGLU3"
+                    acaoAnalisada = "MGLU3"
+                })
+                divVale3.addEventListener("click", function() {
+                    divMglu3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divVale3.style.backgroundColor = "rgb(152, 121, 224)"
+                    divBbas3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divPetr3.style.backgroundColor = "rgb(106, 80, 177)"
+                    divItsa3.style.backgroundColor = "rgb(106, 80, 177)"
+                    // Envia a ação selecionada para a barra lateral (divEsquerda)
+                    acaoAnalisadaLinha.innerText = "VALE3"
+                    acaoAnalisada = "VALE3"
                 })
 
                 // Armazena qual o Intervalo de Tempo que vai ser escolhido pelo usuário
@@ -176,7 +249,6 @@
                             customRangeLabel: 'Intervalo Personalizado'
                         },
                         ranges: {
-                            'Esse Mês': [moment().startOf('month'), moment().endOf('month')],
                             'Mês passado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
                             '2 Meses Atrás': [moment().subtract(2, 'months').startOf('month'), moment().subtract(2, 'months').endOf('month')],
                             '3 Meses Atrás': [moment().subtract(3, 'months').startOf('month'), moment().subtract(3, 'months').endOf('month')],
@@ -219,36 +291,13 @@
                 btnVoltar.innerHTML = "<h3>Voltar</h3>"
                 containerBotoes.appendChild(btnVoltar)
                 btnVoltar.addEventListener("click", reatribuirEventos)
-
-                // Função para reatribuir eventos
-                function reatribuirEventos() {
-                    // Chama escolhaDosGraficos() novamente
-                    linhaTipoGraf.innerHTML = ""
-                    acaoAnalisadaLinha.innerHTML = ""
-                    dataAnalisadaLinha.innerHTML = ""
-                    escolhaDosGraficos()
-
-                    variacaoPercentual = document.querySelector("#variacaoPercentual")
-                    outroGrafico = document.querySelector("#outroGrafico")
-
-                    variacaoPercentual.addEventListener("click", function() {
-                        var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
-                        linhaTipoGraf.innerText = "Variação Percentual"
-                        tipoDoGrafico = "Variação Percentual"
-                        opcoesParaGrafico(tipoDoGrafico)
-                    })
-
-                    outroGrafico.addEventListener("click", function() {
-                        var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
-                        linhaTipoGraf.innerText = "Outro Gráfico"
-                        tipoDoGrafico = "Outro Gráfico"
-                        opcoesParaGrafico(tipoDoGrafico)
-                    })
-                }
                 
-                opcaoesAcoes.appendChild(divPetr3)
-                opcaoesAcoes.appendChild(divBbas3)
-                conteudoEscolhaGrafico.appendChild(opcaoesAcoes)
+                opcoesAcoes.appendChild(divItsa3)
+                opcoesAcoes.appendChild(divMglu3)
+                opcoesAcoes.appendChild(divVale3)
+                opcoesAcoes.appendChild(divPetr3)
+                opcoesAcoes.appendChild(divBbas3)
+                conteudoEscolhaGrafico.appendChild(opcoesAcoes)
                 conteudoEscolhaGrafico.appendChild(opcaoData)
                 conteudoEscolhaGrafico.appendChild(containerBotoes)
                 escolhaGrafico.appendChild(conteudoEscolhaGrafico)
@@ -265,7 +314,7 @@
             let inicioData = new Date(inicioIntervalo)
             let fimData = new Date(fimIntervalo)
 
-            fetch(`http://localhost:8000/historico/${acaoAnalisada}`)
+            fetch(`http://localhost:8000/historico/geral-data`)
             .then((dadosAcoes)=> {
                 console.log("Processando dados...")
                 return dadosAcoes.json()
@@ -275,12 +324,12 @@
                 for (let i=0; i < dadosAcoes.length; i++) {
                     let dataVerificada = new Date(dadosAcoes[i].Date)
 
-                    // Verifica se a data está entre o período definido pelo usuário
-                    if (dataVerificada >= inicioData && dataVerificada <= fimData) {
+                    // Verifica se a data está entre o período definido pelo usuário e o Ticker bate com a escolha do usuário
+                    if (dataVerificada >= inicioData && dataVerificada <= fimData && dadosAcoes[i].Tick === acaoAnalisada) {
                         dadosNoIntervalo.push(dadosAcoes[i])
                     }
                 }
-                // Cria o Gráfico
+                // Chama a função que vai criar o gráfico
                 criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada)
             })
             .catch((erro)=>{
@@ -292,6 +341,17 @@
         }
 
         function criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada) {
+            // Botão para Voltar para Escolha dos Gráficos
+            let conteudoDivEsquerda = document.querySelector("#conteudoDivEsquerda")
+            let btnVoltar = document.createElement("div")
+            btnVoltar.id = "btnVoltarBarraLateral"
+            btnVoltar.innerHTML = "<h3>Voltar</h3>"
+            btnVoltar.addEventListener("click", function(){
+                // Recarrega a página
+                location.reload()
+            })
+            // Adiciona o botão para voltar na barra lateral (divEsquerda)
+            conteudoDivEsquerda.appendChild(btnVoltar)
 
             if (tipoDoGrafico === "Variação Percentual"){
                 // Processa os dados para obter as Variações Percentuais e as Datas
@@ -300,7 +360,6 @@
                 // Onde o Gráfico vai ser implementado
                 var divGraficoArea = document.getElementById('graficoArea')
                 var canvas = document.createElement("canvas")
-                canvas.id = "grafico"
                 divGraficoArea.appendChild(canvas)
 
                 // Separa as Datas e as Variações Percentuais
@@ -339,7 +398,7 @@
                                 // Use uma função de retorno para formatar os valores do eixo Y
                                 ticks: {
                                     callback: function (value) {
-                                        return value + '%'; // Adicione o símbolo de porcentagem
+                                        return value + '%' // Adicione o símbolo de porcentagem
                                     }
                                 }
                             }
@@ -351,8 +410,67 @@
                 const ctx = canvas.getContext('2d')
                 new Chart(ctx, config)
 
-            } else if (tipoDoGrafico === "Outro Gráfico") {
+            } else if (tipoDoGrafico === "Análise Financeira") {
+                // Processa os dados para obter a Análise Financeiras e as Datas e armazena em um array
+                let dataPoints = []
 
+                for (let i = 0; i < dadosNoIntervalo.length; i++) {
+
+                    /*
+                    Problema Enfrentado:
+                     Quando converto os dados de datas para new Date (new Date(dadosNoIntervalo[i].Date))
+                     Isso está caunsando um problema nos dias representados
+                     Porém o uso do formato new Date é obrigatório para este gráfico
+                    */
+
+                    const dataPoint = {
+                        x: new Date(dadosNoIntervalo[i].Date), // Carrega a data para o eixo x (horizontal)
+                        y: [
+                            // Carrega os dados de Abertura, Máxima, Mínima e Fechamento para o eixo y (vertical)
+                            parseFloat(dadosNoIntervalo[i].Open),
+                            parseFloat(dadosNoIntervalo[i].High),
+                            parseFloat(dadosNoIntervalo[i].Low),
+                            parseFloat(dadosNoIntervalo[i].Close)
+                        ]
+                    }
+                    // Adiciona os dados do objeto dataPoint dos eixos x e y no array dataPoints
+                    dataPoints.push(dataPoint)
+                }
+                
+                // Onde o Gráfico vai ser implementado
+                var divGraficoArea = document.getElementById("graficoArea")
+                divGraficoArea.style.display = "block"
+                divGraficoArea.style.width = "75%"
+                divGraficoArea.style.height = "75%"
+
+                // Implementação do Gráfico em Vela
+                var chart = new CanvasJS.Chart("graficoArea", {
+                title: {
+                    text: `Análise Financeira ${acaoAnalisada}`
+                },
+                zoomEnabled: true,
+                axisY: {
+                    includeZero: false,
+                },
+                axisX: {
+                    interval: 6,
+                    intervalType: "day", // Intervalo diário
+                    valueFormatString: "MMM-DD", // Formato da data (dia mês ano)
+                    labelAngle: -45
+                },
+                data: [
+                    {   
+                        color: "rgb(29%, 25%, 34%)",
+                        risingColor: "rgb(25%, 53%, 44%)",
+                        fallingColor: "rgb(226, 72, 119)",
+                        type: "candlestick",
+                        toolTipContent: "<strong>Data:</strong> {x}<br><strong>Abertura:</strong> {y[0]}<br><strong>Máxima:</strong> {y[1]}<br><strong>Mínima:</strong> {y[2]}<br><strong>Fechamento:</strong> {y[3]}",
+                        dataPoints: dataPoints  // Use o array de objetos dataPoints
+                    }
+                ],
+            })
+            // Renderiza o gráfico
+            chart.render()
             }
         }
 

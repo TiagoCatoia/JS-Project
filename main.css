@@ -1,0 +1,386 @@
+body {
+    background-color: #121214;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: row;
+    overflow: hidden;
+    margin: 0;
+}
+#container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+#containerLogin {
+    width: 20%;
+    height: 35%;
+    background-color: #202024;
+    color: rgb(73%, 77%, 80%);
+    border-radius: 5px;
+    padding: 2%;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#divPlataforma {
+    width: 28%;
+    height: 40%;
+    font-size: 34px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(231, 234, 236);
+    flex-direction: column;
+}
+#usuario, #senha {
+    background-color: #121214;
+    color: #262B2F;
+    width: 85%;
+    height: 95%;
+    font-size: 90%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: none; /* Altere 'border: 0' para 'border: none' */
+    outline: none;
+    padding: 0; /* Remova o padding se não for necessário */
+    color: rgb(73%, 77%, 80%);
+}
+#Icon {
+    color: #202024;
+    margin-right: 20px;
+    opacity: 90%;
+}
+#divUsuario, #divSenha, #divEnvio {
+    border-radius: 10px;
+    border: 2px solid;
+    border-color: #202024;
+    background-color: #121214;
+    margin-bottom: 9%;
+    width: 60%;
+    height: 16%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    flex-direction: row;
+    padding-left: 5%;
+}
+#divUsuario:hover , #divSenha:hover  {
+    border-color: rgb(51%, 34%, 90%);
+}
+#divEnvio {
+    width: 60%;
+    background-color: rgb(51%, 34%, 90%);
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 1%;
+}
+#btnEnvio {
+    background-color: rgba(60, 239, 245, 0);
+    color: #262B2F;
+    width: 90%;
+    height: 60%;
+    font-size: 24px;
+    color: rgb(231, 234, 236);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: 0;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+}
+#divEnvio:hover {
+    background-color: rgb(152, 121, 224);
+}
+#divCadastro {
+    text-align: center;
+    width: 80%;
+    color: rgba(255, 255, 255, 0.87);
+    font-size: 20px;
+    font-size: smaller;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+}
+#dashboard {
+    width: 100%;
+    height: 100%;
+    background-color: #121214;
+    display: flex;
+    flex-direction: row;
+}
+#divEsq {
+    width: 10%;
+    height: 100%;
+    background-color: rgb(7%, 7%, 8%);
+    box-shadow: 5px 5px 5px 0px black;
+    padding: 2%;
+    font-size: 25px;
+    cursor: default;
+}
+#user {
+    border-bottom: 2px solid rgb(51%, 34%, 90%);
+}
+#divGraf {
+    width: 90%;
+    height: 100%;
+    background-color: rgb(22, 22, 24);
+    border-radius: 10px;
+    padding: 2%;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#conteudoDivEsquerda {
+    width: 95%;
+    height: 90%;
+    padding: 2%;
+    margin-left: 2%;
+    font-size: 80%;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: left;
+}
+#conteudoDivEsquerda h2 {
+    text-align: center;
+}
+#dataAnalisada, #dataAnalisadaLinha {
+    padding: 4%;
+    border-radius: 10px;
+    text-align: center;
+}
+#dataAnalisada {
+    font-size: 26px;
+}
+#dataAnalisadaLinha {
+    background: rgb(51%, 34%, 90%);
+    height: 5%;
+    margin-bottom: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#dataAnalisadaLinha:hover {
+    background-color: rgb(149, 118, 221);
+    opacity: 100%;
+}
+#tipoGraf, #linhaTipoGraf {
+    padding: 4%;
+    border-radius: 10px;
+    text-align: center;
+}
+#tipoGraf {
+    font-size: 26px;
+}
+#linhaTipoGraf {
+    background: rgb(51%, 34%, 90%);
+    padding: 4%;
+    height: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#linhaTipoGraf:hover{
+    background-color: rgb(149, 118, 221);
+    opacity: 100%;
+}
+.canvasjs-chart-canvas {
+    font-size: 24px;
+    background-color: rgba(163, 118, 221, 0.212);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.493);
+    border-radius: 10px;
+}
+.canvasjs-chart-tooltip {
+    border: 4px solid rgb(175, 144, 245);
+}
+#acaoAnalisada {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    font-size: 26px;
+}
+#acaoAnalisadaLinha:hover {
+    background: rgb(149, 118, 221);
+}
+#acaoAnalisadaLinha {
+    background: rgb(51%, 34%, 90%);
+    padding: 4%;
+    border-radius: 10px;
+    height: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#analiseText {
+    text-align: center;
+}
+#graficoArea {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    font-size: 2rem;
+    width: 90%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 5%;
+}
+#escolhaGrafico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 50%;
+    height: 100%;
+    font-size: 20px;
+}
+#variacaoPercentual {
+    background-color: rgb(49, 116, 71);
+    margin: 3%;
+    padding: 3%;
+    width: 30%;
+    height: 20%;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+#variacaoPercentual:hover {
+    background-color: rgb(39, 92, 56);
+}
+#variacaoPercentual h2, #analiseFinanceira h2 {
+    margin: 5%;
+}
+#analiseFinanceira {
+    background-color: rgb(70, 100, 197);
+    margin: 3%;
+    padding: 3%;
+    width: 30%;
+    height: 20%;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+#analiseFinanceira:hover {
+    background-color: rgb(53, 76, 150);
+}
+#iconGraf {
+    font-size: 35px;
+}
+#iconDivEsq::before {
+    font-size: 50px;
+    cursor: pointer;
+}
+#iconDivEsq:hover {
+    color: rgb(51%, 34%, 90%);
+}
+#divEsq #iconDivEsq {
+    display: flex;
+    justify-content: center;
+}
+#linhaDivisao {
+    width: 70%;
+    height: 0.1px;
+    border: 0.1px  solid rgb(231, 234, 236);
+}
+#textCadastro {
+    margin-left: 2%;
+    text-decoration: none;
+    color: rgb(102, 67, 184);
+}
+#textCadastro:hover {
+    color: rgb(152, 121, 224);
+}
+#divPetr3, #divBbas3, #divItsa3, #divMglu3, #divVale3 {
+    background-color: rgb(106, 80, 177);
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1%;
+    cursor: pointer;
+}
+#divPetr3:hover, #divBbas3:hover, #divItsa3:hover, #divMglu3:hover, #divVale3:hover {
+    background-color: rgb(142, 118, 209);
+}
+#opcoesAcoes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction:row;
+    width: 100%;
+    height: 20%;
+}
+#conteudoEscolhaGrafico {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#opcaoData {
+    background-color: rgb(106, 80, 177);
+    width: 98%;
+    height: 35%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    margin: 3%;
+    flex-direction: column;
+}
+#opcaoData:hover {
+    background-color: rgb(142, 118, 209);
+}
+#reportrange {
+    cursor: pointer;
+    color: rgb(106, 80, 177);
+    padding: 0px;
+    background-color: #fff;
+    padding: 2% 1%;
+    border: 1px solid #ccc;
+    width: 90%;
+    border-radius: 5px;
+}
+#containerBotoes {
+    height:30%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+#btnCarregar, #btnVoltar {
+    background-color: rgb(106, 80, 177);
+    width: 20%;
+    height: 35%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3%;
+}
+#btnCarregar:hover, #btnVoltar:hover {
+    background-color: rgb(142, 118, 209);
+    cursor: pointer;
+}
+#btnVoltarBarraLateral {
+    background-color: rgb(64, 134, 111);
+    width: 100%;
+    height: 5%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 35%;
+}
+#btnVoltarBarraLateral:hover {
+    background-color: rgb(84, 170, 141);
+    cursor: pointer;
+}
