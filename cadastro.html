@@ -35,7 +35,11 @@
     </div>
     <script>
         // verifique se existem dados de login salvos no localStorage
-        var loginsData = localStorage.getItem("loginsData")
+        try {
+            var loginsData = localStorage.getItem("loginsData")
+        } catch (error) {
+            alert("Erro ao acessar o localStorage: " + error.message)
+        }
 
         if (loginsData) {
             // se houver dados no localStorage, converta a string JSON em uma lista de logins
@@ -51,8 +55,12 @@
         // o localStorage armazena os dados no próprio navegador
         function finalizarCadastro() {
             // obtem os valores de usuário e senha do formulário
-            var usuario = document.querySelector("#usuario").value
-            var senha = document.querySelector("#senha").value
+            try {
+                var usuario = document.querySelector("#usuario").value
+                var senha = document.querySelector("#senha").value
+            } catch (error) {
+                alert("Erro ao obter valores do formulário: " + error.message)
+            }
 
             // verifica se os campos de usuário e senha estão preenchidos
             if (usuario === "" || senha === "") {
@@ -76,10 +84,13 @@
                     var loginsData = JSON.stringify(logins)
 
                     // armazena a string JSON no localStorage
-                    localStorage.setItem("loginsData", loginsData)
-
-                    alert("Cadastro realizado com sucesso! Voltando para página de Login...")
-                    window.location.href = "login.html"
+                    try {
+                        localStorage.setItem("loginsData", loginsData)
+                        alert("Cadastro realizado com sucesso! Voltando para página de Login...")
+                        window.location.href = "login.html"
+                    } catch (error) {
+                        alert("Erro ao armazenar dados no localStorage: " + error.message)
+                    }
                 }
             }
         }

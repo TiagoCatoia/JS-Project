@@ -48,12 +48,15 @@
                 alert("Preencha corretamente o Usuário e a Senha!")
             } else {
                 // Obtém a lista de logins do localStorage
-                var loginsData = localStorage.getItem("loginsData")
-                var logins = []
+                try {
+                    var loginsData = localStorage.getItem("loginsData")
+                    var logins = []
 
-                if (loginsData) {
-                    // Converte a string JSON em uma lista de logins
-                    logins = JSON.parse(loginsData)
+                    if (loginsData) {
+                        logins = JSON.parse(loginsData)
+                    }
+                } catch (error) {
+                    alert("Erro ao acessar o localStorage: " + error.message)
                 }
 
                 // Verifica se o login está cadastrado

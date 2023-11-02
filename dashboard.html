@@ -226,39 +226,45 @@
                     <span></span> <i class="fa fa-caret-down"></i>
                 </div>
                 `
-                $(function() {
-                    var start = moment().subtract(29, 'days')
-                    var end = moment()
+                try {
+                    $(function() {
+                        var start = moment().subtract(29, 'days')
+                        var end = moment()
 
-                    function cb(start, end) {
-                        $('#reportrange span').html(' Desde ' + start.format('DD/MM/YYYY') + ' até ' + end.format('DD/MM/YYYY'))
-                        var intervaloSelecionado = $('#reportrange span').text()
-                        // Armazena o intervalo de tempo
-                        inicioIntervalo = `${start.format('YYYY-MM-DD')}`
-                        fimIntervalo = `${end.format('YYYY-MM-DD')}`
-                        console.log("Intervalo selecionado: " + `${start.format('DD/MM/YYYY')}` + " " + `${end.format('DD/MM/YYYY')}`)
-                        // Envia o intervalo selecionado para a barra lateral (divEsquerda)
-                        dataAnalisadaLinha.innerText = `${intervaloSelecionado}`
-                    }
-
-                    $('#reportrange').daterangepicker({
-                        startDate: start,
-                        endDate: end,
-                        locale: {
-                            format: 'DD/MM/YYYY',
-                            customRangeLabel: 'Intervalo Personalizado'
-                        },
-                        ranges: {
-                            'Mês passado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                            '2 Meses Atrás': [moment().subtract(2, 'months').startOf('month'), moment().subtract(2, 'months').endOf('month')],
-                            '3 Meses Atrás': [moment().subtract(3, 'months').startOf('month'), moment().subtract(3, 'months').endOf('month')],
-                            'Ano Passado': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
-                            'Esse Ano': [moment().startOf('year'), moment().endOf('year')]
+                        function cb(start, end) {
+                            $('#reportrange span').html(' Desde ' + start.format('DD/MM/YYYY') + ' até ' + end.format('DD/MM/YYYY'))
+                            var intervaloSelecionado = $('#reportrange span').text()
+                            // Armazena o intervalo de tempo
+                            inicioIntervalo = `${start.format('YYYY-MM-DD')}`
+                            fimIntervalo = `${end.format('YYYY-MM-DD')}`
+                            console.log("Intervalo selecionado: " + `${start.format('DD/MM/YYYY')}` + " " + `${end.format('DD/MM/YYYY')}`)
+                            // Envia o intervalo selecionado para a barra lateral (divEsquerda)
+                            dataAnalisadaLinha.innerText = `${intervaloSelecionado}`
                         }
-                    }, cb)
 
-                    cb(start, end)
-                })
+                        $('#reportrange').daterangepicker({
+                            startDate: start,
+                            endDate: end,
+                            locale: {
+                                format: 'DD/MM/YYYY',
+                                customRangeLabel: 'Intervalo Personalizado'
+                            },
+                            ranges: {
+                                'Mês passado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                                '2 Meses Atrás': [moment().subtract(2, 'months').startOf('month'), moment().subtract(2, 'months').endOf('month')],
+                                '3 Meses Atrás': [moment().subtract(3, 'months').startOf('month'), moment().subtract(3, 'months').endOf('month')],
+                                'Ano Passado': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+                                'Esse Ano': [moment().startOf('year'), moment().endOf('year')]
+                            }
+                        }, cb)
+
+                        cb(start, end)
+                
+                    }) 
+                } catch {
+                    // Informa ao usuário que houve um erro ao criar o calendário
+                    alert("Erro na inicialização do intervalo de tempo: " + error)
+                }
 
                 // Container dos botões
                 var containerBotoes = document.createElement("div")
@@ -314,30 +320,36 @@
             let inicioData = new Date(inicioIntervalo)
             let fimData = new Date(fimIntervalo)
 
-            fetch(`http://localhost:8000/historico/geral-data`)
-            .then((dadosAcoes)=> {
-                console.log("Processando dados...")
-                return dadosAcoes.json()
-            })
-            .then((dadosAcoes)=>{
+            try {
+                fetch(`http://localhost:8000/historico/geral-data`)
+                    .then((dadosAcoes) => {
+                        console.log("Processando dados...")
+                        return dadosAcoes.json()
+                    })
+                    .then((dadosAcoes) => {
 
-                for (let i=0; i < dadosAcoes.length; i++) {
-                    let dataVerificada = new Date(dadosAcoes[i].Date)
+                        for (let i = 0; i < dadosAcoes.length; i++) {
+                            let dataVerificada = new Date(dadosAcoes[i].Date)
 
-                    // Verifica se a data está entre o período definido pelo usuário e o Ticker bate com a escolha do usuário
-                    if (dataVerificada >= inicioData && dataVerificada <= fimData && dadosAcoes[i].Tick === acaoAnalisada) {
-                        dadosNoIntervalo.push(dadosAcoes[i])
-                    }
-                }
-                // Chama a função que vai criar o gráfico
-                criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada)
-            })
-            .catch((erro)=>{
-                console.log(`Erro na requisição: ${erro}`)
-            })
-            .finally(()=>{
-                console.log(`Processamento terminado`)
-            })
+                            // Verifica se a data está entre o período definido pelo usuário e o Ticker bate com a escolha do usuário
+                            if (dataVerificada >= inicioData && dataVerificada <= fimData && dadosAcoes[i].Tick === acaoAnalisada) {
+                                dadosNoIntervalo.push(dadosAcoes[i])
+                            }
+                        }
+                        // Chama a função que vai criar o gráfico
+                        criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada)
+                    })
+                    .catch((erro) => {
+                        // Informa o usuário sobre o erro
+                        alert("Erro na solicitação de dados: " + error)
+                    })
+                    .finally(() => {
+                        console.log(`Processamento terminado`)
+                    })
+            } catch (error) {
+                // Informa o usuário sobre o erro
+                alert("Erro na solicitação de dados: " + error)
+            }
         }
 
         function criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada) {
@@ -480,7 +492,12 @@
             let variacao
             let data
             for (let i=0; i<dadosNoIntervalo.length; i++) {
-                variacao = ( ( dadosNoIntervalo[i].Close - dadosNoIntervalo[i].Open ) / dadosNoIntervalo[i].Open ) * 100
+                try {
+                    variacao = ((dadosNoIntervalo[i].Close - dadosNoIntervalo[i].Open) / dadosNoIntervalo[i].Open) * 100
+                } catch (error) {
+                    console.error("Erro no cálculo de variação: " + error)
+                    variacao = 0 // Atribui um valor padrão
+                }
                 data = dadosNoIntervalo[i].Date
                 variacaoDatas.push({variacao: variacao.toFixed(2), data: data})
             }
