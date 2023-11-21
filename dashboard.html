@@ -1,508 +1,57 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://kit.fontawesome.com/3e656cdace.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <link rel='stylesheet' type='text/css' media='screen' href='dashboard.css'>
+        <!--icon-->
+        <script src="https://kit.fontawesome.com/3e656cdace.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!--daterangepicker-->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <!--gráfico em linha-->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!--gráfico em vela-->
+        <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+        <title>Dashboard</title>
+    </head>
+    <body>
+        <script type="module">
+            // node index.js para iniciar o servidor
+            var urlParams = new URLSearchParams(window.location.search)
+            var usuario = urlParams.get("parametro")
 
-    <title>Dashboard</title>
-</head>
-<body>
-    <script>
-    // node index.js para iniciar o servidor
-        var urlParams = new URLSearchParams(window.location.search)
-        var usuario = urlParams.get("parametro")
-
-        if (usuario === null) {
-            window.location.href = "login.html"
-        }
-        dashboard(usuario)
-
-        function dashboard(usuario) {
-
-            var body = document.querySelector("body")
-            var dashboard = document.createElement("div")
-            dashboard.id = "dashboard"
-            body.appendChild(dashboard)
-
-            // Cria a div da esquerda do gráfico com as escolhas
-            var divEsquerda = document.createElement("div")
-            divEsquerda.id = "divEsq"
-            dashboard.appendChild(divEsquerda)
-
-            // Cria a div em que os gráficos aparecerão
-            var divGrafico = document.createElement("div")
-            divGrafico.id = "divGraf"
-            dashboard.appendChild(divGrafico)
-            
-            // Cria a escolha do gráfico
-            function escolhaDosGraficos() {
-                divGrafico.innerHTML = 
-                `<div id='graficoArea'>
-                    <h1>Dashboard</h1>
-                    <div id='escolhaGrafico'>
-                        <div id="variacaoPercentual"><h2>Variação Percentual<h2><i id='iconGraf' class="fa-solid fa-chart-line"></i></div>
-                        <div id="analiseFinanceira"><h2>Análise Financeira<h2><i id='iconGraf' class="fa-solid fa-chart-simple"></i></div>
-                    </div>
-                </div>`
-            }
-            escolhaDosGraficos()
-
-            var conteudoDivEsquerda = document.createElement("div")
-            conteudoDivEsquerda.id = "conteudoDivEsquerda"
-
-            // Cria o conteúdo da barra Lateral
-            conteudoDivEsquerda.innerHTML =
-            `<i id='iconDivEsq' class="fa-solid fa-user"></i>
-            <h2 id="user">${usuario}</h2>
-            <br>
-            <h3 id="acaoAnalisada">Ação Analisada:<br></h3>
-            <h3 id="acaoAnalisadaLinha"></h3>
-            <br>
-            <h3 id="dataAnalisada">Período Analisado:</h3>
-            <h4 id="dataAnalisadaLinha"></h4>
-            <h3 id="tipoGraf">Gráfico:</h3>
-            <h3 id="linhaTipoGraf"></h3>`
-
-            divEsquerda.appendChild(conteudoDivEsquerda)
-
-            // Volta para tela de login se apertar o ícone de usuário
-            var userIcon = document.querySelector("#iconDivEsq")
-            userIcon.addEventListener("click", function() {
+            if (usuario === null) {
                 window.location.href = "login.html"
-            })
-
-            // Armazena qual vai ser o gráfico escolhido pelo usuário
-            var tipoDoGrafico
-
-            // 1º Opção dos Gráficos (divGrafico)
-            var variacaoPercentual = document.querySelector("#variacaoPercentual")
-            variacaoPercentual.addEventListener("click", function() {
-
-                var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
-                linhaTipoGraf.innerText = "Variação Percentual"
-                tipoDoGrafico = "Variação Percentual"
-                opcoesParaGrafico(tipoDoGrafico)
-            })
-
-            // 2º Opção dos Gráficos (divGrafico)
-            var analiseFinanceira = document.querySelector("#analiseFinanceira")
-            analiseFinanceira.addEventListener("click", function() {
-                var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
-                linhaTipoGraf.innerText = "Análise Financeira"
-                tipoDoGrafico = "Análise Financeira"
-
-                opcoesParaGrafico(tipoDoGrafico)
-            })
-
-            // Função para reatribuir eventos
-            function reatribuirEventos() {
-                // Chama escolhaDosGraficos() novamente
-                linhaTipoGraf.innerHTML = ""
-                acaoAnalisadaLinha.innerHTML = ""
-                dataAnalisadaLinha.innerHTML = ""
-                escolhaDosGraficos()
-
-                variacaoPercentual = document.querySelector("#variacaoPercentual")
-                analiseFinanceira = document.querySelector("#analiseFinanceira")
-
-                variacaoPercentual.addEventListener("click", function() {
-                    var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
-                    linhaTipoGraf.innerText = "Variação Percentual"
-                    tipoDoGrafico = "Variação Percentual"
-                    opcoesParaGrafico(tipoDoGrafico)
-                })
-
-                analiseFinanceira.addEventListener("click", function() {
-                    var linhaTipoGraf = document.querySelector("#linhaTipoGraf")
-                    linhaTipoGraf.innerText = "Análise Financeira"
-                    tipoDoGrafico = "Análise Financeira"
-                    opcoesParaGrafico(tipoDoGrafico)
-                })
             }
+            import {dashboard} from './boardStructureOptions.js'
 
-            function opcoesParaGrafico(tipoDoGrafico){
-                var conteudoEscolhaGrafico = document.createElement("div")
-                conteudoEscolhaGrafico.id = "conteudoEscolhaGrafico"
+            async function callbackInfos(infos) {
+                // Recebe as informações do callback, como intervalo de tempo, ação analisada e tipo de gráfico
+                var inicioIntervalo = infos[0];
+                var fimIntervalo = infos[1];
+                var acaoAnalisada = infos[2];
+                var tipoDoGrafico = infos[3];
 
-                var escolhaGrafico = document.querySelector("#escolhaGrafico")
-                escolhaGrafico.innerHTML = ""
-                
-                var opcoesAcoes = document.createElement("div")
-                opcoesAcoes.id = "opcoesAcoes"
-                var divPetr3 = document.createElement("div")
-                divPetr3.id = "divPetr3"
-                divPetr3.innerHTML = "<h2>PETR3<h2>"
-                var divBbas3 = document.createElement("div")
-                divBbas3.id = "divBbas3"
-                divBbas3.innerHTML = "<h2>BBAS3<h2>"
-                var divItsa3 = document.createElement("div")
-                divItsa3.id = "divItsa3"
-                divItsa3.innerHTML = "<h2>ITSA3<h2>"
-                var divMglu3 = document.createElement("div")
-                divMglu3.id = "divMglu3"
-                divMglu3.innerHTML = "<h2>MGLU3<h2>"
-                var divVale3 = document.createElement("div")
-                divVale3.id = "divVale3"
-                divVale3.innerHTML = "<h2>VALE3<h2>"
-
-                // Armazena qual a ação vai ser escolhida pelo usuário
-                var acaoAnalisada
-
-                divPetr3.addEventListener("click", function() {
-                    divMglu3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divVale3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divBbas3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divPetr3.style.backgroundColor = "rgb(152, 121, 224)"
-                    divItsa3.style.backgroundColor = "rgb(106, 80, 177)"
-                    // Envia a ação selecionada para a barra lateral (divEsquerda)
-                    acaoAnalisadaLinha.innerText = "PETR3"
-                    acaoAnalisada = "PETR3"
-                })
-                divBbas3.addEventListener("click", function() {
-                    divMglu3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divVale3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divBbas3.style.backgroundColor = "rgb(152, 121, 224)"
-                    divPetr3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divItsa3.style.backgroundColor = "rgb(106, 80, 177)"
-                    // Envia a ação selecionada para a barra lateral (divEsquerda)
-                    acaoAnalisadaLinha.innerText = "BBAS3"
-                    acaoAnalisada = "BBAS3"
-                })
-                divItsa3.addEventListener("click", function() {
-                    divMglu3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divVale3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divBbas3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divPetr3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divItsa3.style.backgroundColor = "rgb(152, 121, 224)"
-                    // Envia a ação selecionada para a barra lateral (divEsquerda)
-                    acaoAnalisadaLinha.innerText = "ITSA3"
-                    acaoAnalisada = "ITSA3"
-                })
-                divMglu3.addEventListener("click", function() {
-                    divMglu3.style.backgroundColor = "rgb(152, 121, 224)"
-                    divVale3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divBbas3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divPetr3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divItsa3.style.backgroundColor = "rgb(106, 80, 177)"
-                    // Envia a ação selecionada para a barra lateral (divEsquerda)
-                    acaoAnalisadaLinha.innerText = "MGLU3"
-                    acaoAnalisada = "MGLU3"
-                })
-                divVale3.addEventListener("click", function() {
-                    divMglu3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divVale3.style.backgroundColor = "rgb(152, 121, 224)"
-                    divBbas3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divPetr3.style.backgroundColor = "rgb(106, 80, 177)"
-                    divItsa3.style.backgroundColor = "rgb(106, 80, 177)"
-                    // Envia a ação selecionada para a barra lateral (divEsquerda)
-                    acaoAnalisadaLinha.innerText = "VALE3"
-                    acaoAnalisada = "VALE3"
-                })
-
-                // Armazena qual o Intervalo de Tempo que vai ser escolhido pelo usuário
-                var inicioIntervalo
-                var fimIntervalo
-
-
-                var opcaoData = document.createElement("div")
-                opcaoData.id = "opcaoData"
-
-                // Cria o Calendário
-                opcaoData.innerHTML =
-                `
-                <h2>Intervalo de Tempo</h2>
-                <br>
-                <div id="reportrange">
-                    <i class="fa fa-calendar"></i>&nbsp
-                    <span></span> <i class="fa fa-caret-down"></i>
-                </div>
-                `
-                try {
-                    $(function() {
-                        var start = moment().subtract(29, 'days')
-                        var end = moment()
-
-                        function cb(start, end) {
-                            $('#reportrange span').html(' Desde ' + start.format('DD/MM/YYYY') + ' até ' + end.format('DD/MM/YYYY'))
-                            var intervaloSelecionado = $('#reportrange span').text()
-                            // Armazena o intervalo de tempo
-                            inicioIntervalo = `${start.format('YYYY-MM-DD')}`
-                            fimIntervalo = `${end.format('YYYY-MM-DD')}`
-                            console.log("Intervalo selecionado: " + `${start.format('DD/MM/YYYY')}` + " " + `${end.format('DD/MM/YYYY')}`)
-                            // Envia o intervalo selecionado para a barra lateral (divEsquerda)
-                            dataAnalisadaLinha.innerText = `${intervaloSelecionado}`
-                        }
-
-                        $('#reportrange').daterangepicker({
-                            startDate: start,
-                            endDate: end,
-                            locale: {
-                                format: 'DD/MM/YYYY',
-                                customRangeLabel: 'Intervalo Personalizado'
-                            },
-                            ranges: {
-                                'Mês passado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                                '2 Meses Atrás': [moment().subtract(2, 'months').startOf('month'), moment().subtract(2, 'months').endOf('month')],
-                                '3 Meses Atrás': [moment().subtract(3, 'months').startOf('month'), moment().subtract(3, 'months').endOf('month')],
-                                'Ano Passado': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
-                                'Esse Ano': [moment().startOf('year'), moment().endOf('year')]
-                            }
-                        }, cb)
-
-                        cb(start, end)
-                
-                    }) 
-                } catch {
-                    // Informa ao usuário que houve um erro ao criar o calendário
-                    alert("Erro na inicialização do intervalo de tempo: " + error)
+                // Função de retorno de chamada para receber dados do intervalo
+                async function callbackDados(dadosNoIntervalo) {
+                    // Importa dinamicamente a função criaGrafico do módulo boardGrafCreate.js
+                    var { criaGrafico } = await import('./boardGrafCreate.js');
+                    // Chama a função que cria o gráfico dependendo das escolhas do usuário
+                    criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada);
                 }
 
-                // Container dos botões
-                var containerBotoes = document.createElement("div")
-                containerBotoes.id = "containerBotoes"
-
-                // Botão que vai retornar a resposta para carregar o gráfico
-                var btnCarregar = document.createElement("div")
-                btnCarregar.id = "btnCarregar"
-                btnCarregar.innerHTML = "<h3>Carregar</h3>"
-                containerBotoes.appendChild(btnCarregar)
-
-                btnCarregar.addEventListener("click", function() {
-                    // Verifica se o usuário selecionou os campos necessários para gerar o gráfico
-
-                    if (acaoAnalisadaLinha.innerText !== "" && dataAnalisadaLinha.innerText !== "") {
-                        // Limpa a região onde o gráfico será mostrado (divGraficoArea)
-                        let divGraficoArea = document.getElementById('graficoArea')
-                        divGraficoArea. innerHTML = ""
-
-                        // Carrega e Formata os dados para serem usados no gráfico
-                        carregarDados(inicioIntervalo, fimIntervalo, acaoAnalisada, tipoDoGrafico)     
-                    } else {
-                        alert("Ação e/ou Intervalo de Tempo não foram selecionadas.")
-                    }
-                })
-
-                // Botão para Voltar para Escolha dos Gráficos
-                var btnVoltar = document.createElement("div")
-                btnVoltar.id = "btnVoltar"
-                btnVoltar.innerHTML = "<h3>Voltar</h3>"
-                containerBotoes.appendChild(btnVoltar)
-                btnVoltar.addEventListener("click", reatribuirEventos)
-                
-                opcoesAcoes.appendChild(divItsa3)
-                opcoesAcoes.appendChild(divMglu3)
-                opcoesAcoes.appendChild(divVale3)
-                opcoesAcoes.appendChild(divPetr3)
-                opcoesAcoes.appendChild(divBbas3)
-                conteudoEscolhaGrafico.appendChild(opcoesAcoes)
-                conteudoEscolhaGrafico.appendChild(opcaoData)
-                conteudoEscolhaGrafico.appendChild(containerBotoes)
-                escolhaGrafico.appendChild(conteudoEscolhaGrafico)
+                // Importa dinamicamente a função carregarDados do módulo boardLoadData.js
+                var { carregarDados } = await import('./boardLoadData.js');
+                // Chama a função que carrega e formata os dados para serem usados no gráfico
+                var dadosNoIntervalo = carregarDados(inicioIntervalo, fimIntervalo, acaoAnalisada, tipoDoGrafico, callbackDados);
             }
-        }
-        
-        // Carrega e Formata os dados para serem usados no gráfico
-        function carregarDados(inicioIntervalo, fimIntervalo, acaoAnalisada, tipoDoGrafico) {
-            // Variável que acessa todos os dados do servidor
-            let dadosAcoes
-            // Array que vai armazenar todos os dados no intervalo específico
-            let dadosNoIntervalo = []
-            // Declare e inicialize as variáveis de intervalo
-            let inicioData = new Date(inicioIntervalo)
-            let fimData = new Date(fimIntervalo)
 
-            try {
-                fetch(`http://localhost:8000/historico/geral-data`)
-                    .then((dadosAcoes) => {
-                        console.log("Processando dados...")
-                        return dadosAcoes.json()
-                    })
-                    .then((dadosAcoes) => {
-
-                        for (let i = 0; i < dadosAcoes.length; i++) {
-                            let dataVerificada = new Date(dadosAcoes[i].Date)
-
-                            // Verifica se a data está entre o período definido pelo usuário e o Ticker bate com a escolha do usuário
-                            if (dataVerificada >= inicioData && dataVerificada <= fimData && dadosAcoes[i].Tick === acaoAnalisada) {
-                                dadosNoIntervalo.push(dadosAcoes[i])
-                            }
-                        }
-                        // Chama a função que vai criar o gráfico
-                        criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada)
-                    })
-                    .catch((erro) => {
-                        // Informa o usuário sobre o erro
-                        alert("Erro na solicitação de dados: " + error)
-                    })
-                    .finally(() => {
-                        console.log(`Processamento terminado`)
-                    })
-            } catch (error) {
-                // Informa o usuário sobre o erro
-                alert("Erro na solicitação de dados: " + error)
-            }
-        }
-
-        function criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada) {
-            // Botão para Voltar para Escolha dos Gráficos
-            let conteudoDivEsquerda = document.querySelector("#conteudoDivEsquerda")
-            let btnVoltar = document.createElement("div")
-            btnVoltar.id = "btnVoltarBarraLateral"
-            btnVoltar.innerHTML = "<h3>Voltar</h3>"
-            btnVoltar.addEventListener("click", function(){
-                // Recarrega a página
-                location.reload()
-            })
-            // Adiciona o botão para voltar na barra lateral (divEsquerda)
-            conteudoDivEsquerda.appendChild(btnVoltar)
-
-            if (tipoDoGrafico === "Variação Percentual"){
-                // Processa os dados para obter as Variações Percentuais e as Datas
-                var variacaoDatas = calcularVariacao(dadosNoIntervalo)
-
-                // Onde o Gráfico vai ser implementado
-                var divGraficoArea = document.getElementById('graficoArea')
-                var canvas = document.createElement("canvas")
-                divGraficoArea.appendChild(canvas)
-
-                // Separa as Datas e as Variações Percentuais
-                let datas = []
-                let variacoes = []
-                for (let i=0; i < variacaoDatas.length; i++) {
-                    datas.push(variacaoDatas[i].data)
-                    variacoes.push(variacaoDatas[i].variacao)
-                }
-
-                // Datas representa a linha horizontal (eixo y)
-                var labels = datas
-                // Variação Percentual representa a linha vertical (eixo x)
-                const dataPoints = variacoes
-
-                const config = {
-                    type: 'line', // Define o tipo do Gráfico como em Linha
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: `Variação Percentual ${acaoAnalisada}`,
-                            data: dataPoints, // dataPoints refere-se a uma coleção de pontos de dados
-                            fill: false,
-                            borderColor: 'rgb(51%, 34%, 90%)',
-                            tension: 0.1
-                        }]
-                    },
-                    options: {
-                        responsive: true, // Torna o gráfico responsivo
-                        scales: {
-                            x: {
-                                beginAtZero: true
-                            },
-                            y: {
-                                beginAtZero: true,
-                                // Use uma função de retorno para formatar os valores do eixo Y
-                                ticks: {
-                                    callback: function (value) {
-                                        return value + '%' // Adicione o símbolo de porcentagem
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Renderiza o gráfico no canvas
-                const ctx = canvas.getContext('2d')
-                new Chart(ctx, config)
-
-            } else if (tipoDoGrafico === "Análise Financeira") {
-                // Processa os dados para obter a Análise Financeiras e as Datas e armazena em um array
-                let dataPoints = []
-
-                for (let i = 0; i < dadosNoIntervalo.length; i++) {
-
-                    /*
-                    Problema Enfrentado:
-                     Quando converto os dados de datas para new Date (new Date(dadosNoIntervalo[i].Date))
-                     Isso está caunsando um problema nos dias representados
-                     Porém o uso do formato new Date é obrigatório para este gráfico
-                    */
-
-                    const dataPoint = {
-                        x: new Date(dadosNoIntervalo[i].Date), // Carrega a data para o eixo x (horizontal)
-                        y: [
-                            // Carrega os dados de Abertura, Máxima, Mínima e Fechamento para o eixo y (vertical)
-                            parseFloat(dadosNoIntervalo[i].Open),
-                            parseFloat(dadosNoIntervalo[i].High),
-                            parseFloat(dadosNoIntervalo[i].Low),
-                            parseFloat(dadosNoIntervalo[i].Close)
-                        ]
-                    }
-                    // Adiciona os dados do objeto dataPoint dos eixos x e y no array dataPoints
-                    dataPoints.push(dataPoint)
-                }
-                
-                // Onde o Gráfico vai ser implementado
-                var divGraficoArea = document.getElementById("graficoArea")
-                divGraficoArea.style.display = "block"
-                divGraficoArea.style.width = "75%"
-                divGraficoArea.style.height = "75%"
-
-                // Implementação do Gráfico em Vela
-                var chart = new CanvasJS.Chart("graficoArea", {
-                title: {
-                    text: `Análise Financeira ${acaoAnalisada}`
-                },
-                zoomEnabled: true,
-                axisY: {
-                    includeZero: false,
-                },
-                axisX: {
-                    interval: 6,
-                    intervalType: "day", // Intervalo diário
-                    valueFormatString: "MMM-DD", // Formato da data (dia mês ano)
-                    labelAngle: -45
-                },
-                data: [
-                    {   
-                        color: "rgb(29%, 25%, 34%)",
-                        risingColor: "rgb(25%, 53%, 44%)",
-                        fallingColor: "rgb(226, 72, 119)",
-                        type: "candlestick",
-                        toolTipContent: "<strong>Data:</strong> {x}<br><strong>Abertura:</strong> {y[0]}<br><strong>Máxima:</strong> {y[1]}<br><strong>Mínima:</strong> {y[2]}<br><strong>Fechamento:</strong> {y[3]}",
-                        dataPoints: dataPoints  // Use o array de objetos dataPoints
-                    }
-                ],
-            })
-            // Renderiza o gráfico
-            chart.render()
-            }
-        }
-
-        // Calcula a Variação Percentual entre o preço de abertura e fechamento para o período analisado
-        function calcularVariacao(dadosNoIntervalo) {
-            let variacaoDatas = []
-            let variacao
-            let data
-            for (let i=0; i<dadosNoIntervalo.length; i++) {
-                try {
-                    variacao = ((dadosNoIntervalo[i].Close - dadosNoIntervalo[i].Open) / dadosNoIntervalo[i].Open) * 100
-                } catch (error) {
-                    console.error("Erro no cálculo de variação: " + error)
-                    variacao = 0 // Atribui um valor padrão
-                }
-                data = dadosNoIntervalo[i].Date
-                variacaoDatas.push({variacao: variacao.toFixed(2), data: data})
-            }
-            return variacaoDatas
-        }
-    </script>
-</body>
+            // Chama a função que cria a estrutura HTML e as opções dos gráficos
+            dashboard(usuario, callbackInfos);
+        </script>
+    </body>
 </html>

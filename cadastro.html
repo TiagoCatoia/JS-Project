@@ -1,99 +1,45 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src="https://kit.fontawesome.com/3e656cdace.js" crossorigin="anonymous"></script>
-    <title>Cadastro</title>
-</head>
-<body>
-    <div id="container">
-        <div id="divPlataforma">
-            <h1>
-                <br>
-                Crie sua conta 💜
-            </h1>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <link rel='stylesheet' type='text/css' media='screen' href='login-cadastro.css'>
+        <script src="https://kit.fontawesome.com/3e656cdace.js" crossorigin="anonymous"></script><!--icon-->
+        <title>Cadastro</title>
+    </head>
+    <body>
+        <div id="container">
+            <div id="divMensagemInicial">
+                <h1>
+                    <br>
+                    Crie sua conta 💜
+                </h1>
+            </div>
+            <div id="containerLogin">
+                <div id="divUsuario">
+                    <i id="Icon" class="fa-regular fa-user"></i>
+                    <input type="text" id="usuario" name="usuario" placeholder="Escolha um Usuário">
+                </div>
+                <div id="divSenha">
+                    <i id="Icon" class="fa-solid fa-unlock"></i>
+                    <input type="password" id="senha" name="senha" placeholder="Escolha uma Senha">
+                </div>
+                <div id="divEnvio">
+                    <button type="submit" id="btnEnvio">Cadastrar</button>
+                </div><br>
+                <div id="linhaDivisao"></div><br>
+                <div id="divTrocaPaginas">
+                    Voltar para página de<a id="textCadastro" href="login.html">Login</a>
+                </div>
+            </div>
         </div>
-        <div id="containerLogin">
-            <div id="divUsuario">
-                <i id="Icon" class="fa-regular fa-user"></i>
-                <input type="text" id="usuario" name="usuario" placeholder="Escolha um Usuário">
-            </div>
-            <div id="divSenha">
-                <i id="Icon" class="fa-solid fa-unlock"></i>
-                <input type="password" id="senha" name="senha" placeholder="Escolha uma Senha">
-            </div>
-            <div id="divEnvio">
-                <button type="submit" id="btnEnvio">Cadastrar</button>
-            </div><br>
-            <div id="linhaDivisao"></div><br>
-            <div id="divCadastro">
-                Voltar para página de<a id="textCadastro" href="login.html">Login</a>
-            </div>
-        </div>
-    </div>
-    <script>
-        // verifique se existem dados de login salvos no localStorage
-        try {
-            var loginsData = localStorage.getItem("loginsData")
-        } catch (error) {
-            alert("Erro ao acessar o localStorage: " + error.message)
-        }
+        <script type="module">
+            import {finalizarCadastro} from './cadastro.js'
 
-        if (loginsData) {
-            // se houver dados no localStorage, converta a string JSON em uma lista de logins
-            var logins = JSON.parse(loginsData) // se não houver dados no localStorage retornará null, logo logins vai ser uma lista vazia
-        }
-        else {
-            var logins = []
-        }
-
-        var cadastrar = document.querySelector("#btnEnvio")
-        cadastrar.addEventListener("click", finalizarCadastro)
-
-        // o localStorage armazena os dados no próprio navegador
-        function finalizarCadastro() {
-            // obtem os valores de usuário e senha do formulário
-            try {
-                var usuario = document.querySelector("#usuario").value
-                var senha = document.querySelector("#senha").value
-            } catch (error) {
-                alert("Erro ao obter valores do formulário: " + error.message)
-            }
-
-            // verifica se os campos de usuário e senha estão preenchidos
-            if (usuario === "" || senha === "") {
-            alert("Preencha corretamente o Usuário e a Senha!")
-            } else {
-                // verifique se o usuário já está cadastrad
-                var usuarioJaCadastrado = logins.some(function(login) { //  método some para verificar se algum dos objetos na lista logins possui o mesmo nome de usuário (usn) que está sendo cadastrado
-                    return login.usn === usuario
-                })
-                // some() é um método em JavaScript que é usado em arrays. Ele verifica se pelo menos um elemento do array atende a uma determinada condição e retorna true se pelo menos um elemento passar na condição, ou false se nenhum elemento passar
-                if (usuarioJaCadastrado) {
-                    alert("Este Usuário já está Cadastrado!")
-                } else {
-                    // cria um objeto com os dados de login
-                    var login = { usn: usuario, psw: senha }
-
-                    // adiciona o objeto à lista de logins
-                    logins.push(login)
-
-                    // converte a lista de logins em uma string JSON
-                    var loginsData = JSON.stringify(logins)
-
-                    // armazena a string JSON no localStorage
-                    try {
-                        localStorage.setItem("loginsData", loginsData)
-                        alert("Cadastro realizado com sucesso! Voltando para página de Login...")
-                        window.location.href = "login.html"
-                    } catch (error) {
-                        alert("Erro ao armazenar dados no localStorage: " + error.message)
-                    }
-                }
-            }
-        }
-    </script>
-</body>
+            var cadastrar = document.querySelector("#btnEnvio")
+            cadastrar.addEventListener("click", function() {
+                finalizarCadastro()
+            })
+        </script>
+    </body>
 </html>

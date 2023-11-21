@@ -1,0 +1,124 @@
+/*      LOGIN  E  CADASTRO      */
+
+body {
+    background-color: #121214;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: row;
+    overflow: hidden;
+    margin: 0;
+}
+#container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+#containerLogin {
+    width: 20%;
+    height: 35%;
+    background-color: #202024;
+    color: rgb(73%, 77%, 80%);
+    border-radius: 5px;
+    padding: 2%;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#divMensagemInicial {
+    width: 28%;
+    height: 40%;
+    font-size: 34px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(231, 234, 236);
+    flex-direction: column;
+}
+#Icon {
+    color: #202024;
+    margin-right: 20px;
+    opacity: 90%;
+}
+#usuario, #senha {
+    background-color: #121214;
+    color: #262B2F;
+    width: 85%;
+    height: 95%;
+    font-size: 90%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: none;
+    outline: none;
+    padding: 0;
+    color: rgb(73%, 77%, 80%);
+}
+#divUsuario, #divSenha, #divEnvio {
+    border-radius: 10px;
+    border: 2px solid;
+    border-color: #202024;
+    background-color: #121214;
+    margin-bottom: 9%;
+    width: 60%;
+    height: 16%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    flex-direction: row;
+    padding-left: 5%;
+}
+#divUsuario:hover , #divSenha:hover  {
+    border-color: rgb(51%, 34%, 90%);
+}
+#divEnvio {
+    width: 60%;
+    background-color: rgb(51%, 34%, 90%);
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 1%;
+    padding: 0;
+}
+#btnEnvio {
+    background-color: rgba(60, 239, 245, 0);
+    color: #262B2F;
+    width: 100%;
+    height: 100%;
+    font-size: 24px;
+    color: rgb(231, 234, 236);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: 0;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+}
+#divEnvio:hover {
+    background-color: rgb(152, 121, 224);
+}
+#linhaDivisao {
+    width: 70%;
+    height: 0.1px;
+    border: 0.1px  solid rgb(231, 234, 236);
+}
+#divTrocaPaginas {
+    text-align: center;
+    width: 80%;
+    color: rgba(255, 255, 255, 0.87);
+    font-size: 20px;
+    font-size: smaller;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+}
+#textCadastro {
+    margin-left: 2%;
+    text-decoration: none;
+    color: rgb(102, 67, 184);
+}
+#textCadastro:hover {
+    color: rgb(152, 121, 224);
+}

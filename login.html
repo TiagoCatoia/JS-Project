@@ -1,74 +1,46 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src="https://kit.fontawesome.com/3e656cdace.js" crossorigin="anonymous"></script>
-    <title>Login</title>
-</head>
-<body>
-    <div id="container">
-        <div id="divPlataforma">
-            <h1>
-                Faça seu login
-                <br>
-                na plataforma
-            </h1>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <link rel='stylesheet' type='text/css' media='screen' href='login-cadastro.css'>
+        <script src="https://kit.fontawesome.com/3e656cdace.js" crossorigin="anonymous"></script><!--icon-->
+        <title>Login</title>
+    </head>
+    <body>
+        <div id="container">
+            <div id="divMensagemInicial">
+                <h1>
+                    🌌Faça seu login
+                    <br>
+                    na plataforma🌌
+                </h1>
+            </div>
+            <div id="containerLogin">
+                <div id="divUsuario">
+                    <i id="Icon" class="fa-regular fa-user"></i>
+                    <input type="text" id="usuario" name="usuario" placeholder="Usuário">
+                </div>
+                <div id="divSenha">
+                    <i id="Icon" class="fa-solid fa-unlock"></i>
+                    <input type="password" id="senha" name="senha" placeholder="Senha">
+                </div>
+                <div id="divEnvio">
+                    <button type="submit" id="btnEnvio">Entrar</button>
+                </div><br>
+                <div id="linhaDivisao"></div><br>
+                <div id="divTrocaPaginas">
+                    Não tem uma conta?<a id="textCadastro" href="cadastro.html">Registre-se</a>
+                </div>
+            </div>
         </div>
-        <div id="containerLogin">
-            <div id="divUsuario">
-                <i id="Icon" class="fa-regular fa-user"></i>
-                <input type="text" id="usuario" name="usuario" placeholder="Usuário">
-            </div>
-            <div id="divSenha">
-                <i id="Icon" class="fa-solid fa-unlock"></i>
-                <input type="password" id="senha" name="senha" placeholder="Senha">
-            </div>
-            <div id="divEnvio">
-                <button type="submit" id="btnEnvio">Entrar</button>
-            </div><br>
-            <div id="linhaDivisao"></div><br>
-            <div id="divCadastro">
-                Não tem uma conta?<a id="textCadastro" href="cadastro.html">Registre-se</a>
-            </div>
-        </div>
-    </div>
-    <script>
-        var btnSubmit = document.querySelector("#btnEnvio")
-        btnSubmit.addEventListener("click", function () {
-            login(btnSubmit)
-        })
-
-        function login() {
-            let usuario = document.querySelector("#usuario").value
-            let senha = document.querySelector("#senha").value
-
-            if (usuario === "" || senha === "") {
-                alert("Preencha corretamente o Usuário e a Senha!")
-            } else {
-                // Obtém a lista de logins do localStorage
-                try {
-                    var loginsData = localStorage.getItem("loginsData")
-                    var logins = []
-
-                    if (loginsData) {
-                        logins = JSON.parse(loginsData)
-                    }
-                } catch (error) {
-                    alert("Erro ao acessar o localStorage: " + error.message)
-                }
-
-                // Verifica se o login está cadastrado
-                var loginEncontrado = logins.find(login => login.usn === usuario && login.psw === senha)
-
-                if (loginEncontrado) {
-                    window.location.href = "dashboard.html?parametro=" + encodeURIComponent(usuario) // troca para página do dashboard e passa o usuario
-                } else {
-                    alert("Login não cadastrado. Verifique seu Usuário e Senha.")
-                }
-            }
-        }
-    </script>
-</body>
+        <script type="module">
+            import {efetuarAcesso} from './login.js'
+            
+            var btnSubmit = document.querySelector("#btnEnvio")
+            btnSubmit.addEventListener("click", function () {
+                efetuarAcesso()
+            })
+        </script>
+    </body>
 </html>
