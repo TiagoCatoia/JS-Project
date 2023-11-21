@@ -51,10 +51,10 @@ O sistema utiliza o **LocalStorage** para armazenar temporariamente as informaç
 Para executar o servidor, siga estas etapas:
 
 1. Certifique-se de ter a pasta `node_modules` instalada executando o seguinte comando:
-   npm install
+   `npm install`
 
-2. Abra o terminal na raiz do projeto e inicialize o servidor com o comando (certifique-se de ter o Node instalado):
-   node index.js
+2. Abra o terminal na raiz do projeto e inicialize o servidor com o comando (certifique-se de ter o `Node` instalado):
+   `node index.js`
 
 # Instruções de Utilização do Sistema
 
