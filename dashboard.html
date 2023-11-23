@@ -34,8 +34,8 @@
                 dashboard(usuario, callbackInfos)
             }
             catch {
-                console.log("Não foi possível criar as opções para o gráfico!")
-                location.reload()
+                alert("Não foi possível criar a estrutura e as opções para o gráfico!")
+                window.location.href = "login.html"
             }
 
             async function callbackInfos(infos) {
@@ -53,8 +53,8 @@
                         // Chama a função que cria o gráfico dependendo das escolhas do usuário
                         criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada)
                     } catch {
-                        console.log("Não foi possível criar o gráfico!")
-                        location.reload()
+                        alert("Não foi possível criar o gráfico!")
+                        window.location.href = "login.html"
                     }
                 }
 
@@ -64,8 +64,8 @@
                     // Chama a função que carrega e formata os dados para serem usados no gráfico
                     var dadosNoIntervalo = carregarDados(inicioIntervalo, fimIntervalo, acaoAnalisada, tipoDoGrafico, callbackDados)
                 } catch {
-                    console.log("Não foi possível carregar os dados do servidor!")
-                    location.reload()
+                    alert("Não foi possível carregar os dados do servidor!")
+                    window.location.href = "login.html"
                 }
             }
         </script>
