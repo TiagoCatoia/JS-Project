@@ -27,31 +27,47 @@
             if (usuario === null) {
                 window.location.href = "login.html"
             }
-            import {dashboard} from './boardStructureOptions.js'
+            try {
+                // Importa dinamicamente a função dashboard do módulo boardStructureOptions.js
+                var { dashboard } = await import('./boardStructureOptions.js')
+                // Chama a função que cria a estrutura HTML e as opções dos gráficos
+                dashboard(usuario, callbackInfos)
+            }
+            catch {
+                console.log("Não foi possível criar as opções para o gráfico!")
+                location.reload()
+            }
 
             async function callbackInfos(infos) {
                 // Recebe as informações do callback, como intervalo de tempo, ação analisada e tipo de gráfico
-                var inicioIntervalo = infos[0];
-                var fimIntervalo = infos[1];
-                var acaoAnalisada = infos[2];
-                var tipoDoGrafico = infos[3];
+                var inicioIntervalo = infos[0]
+                var fimIntervalo = infos[1]
+                var acaoAnalisada = infos[2]
+                var tipoDoGrafico = infos[3]
 
                 // Função de retorno de chamada para receber dados do intervalo
                 async function callbackDados(dadosNoIntervalo) {
                     // Importa dinamicamente a função criaGrafico do módulo boardGrafCreate.js
-                    var { criaGrafico } = await import('./boardGrafCreate.js');
-                    // Chama a função que cria o gráfico dependendo das escolhas do usuário
-                    criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada);
+                    try { 
+                        var { criaGrafico } = await import('./boardGrafCreate.js')
+                        // Chama a função que cria o gráfico dependendo das escolhas do usuário
+                        criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada)
+                    } catch {
+                        console.log("Não foi possível criar o gráfico!")
+                        location.reload()
+                    }
                 }
 
                 // Importa dinamicamente a função carregarDados do módulo boardLoadData.js
-                var { carregarDados } = await import('./boardLoadData.js');
-                // Chama a função que carrega e formata os dados para serem usados no gráfico
-                var dadosNoIntervalo = carregarDados(inicioIntervalo, fimIntervalo, acaoAnalisada, tipoDoGrafico, callbackDados);
+                try {
+                    var { carregarDados } = await import('./boardLoadData.js')
+                    // Chama a função que carrega e formata os dados para serem usados no gráfico
+                    var dadosNoIntervalo = carregarDados(inicioIntervalo, fimIntervalo, acaoAnalisada, tipoDoGrafico, callbackDados)
+                } catch {
+                    console.log("Não foi possível carregar os dados do servidor!")
+                    location.reload()
+                }
             }
-
-            // Chama a função que cria a estrutura HTML e as opções dos gráficos
-            dashboard(usuario, callbackInfos);
         </script>
     </body>
 </html>

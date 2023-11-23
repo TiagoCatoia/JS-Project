@@ -243,7 +243,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4%;
 }
 #btnVoltarBarraLateral:hover {
     background-color: rgb(84, 170, 141);
