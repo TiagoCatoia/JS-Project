@@ -203,7 +203,6 @@ export function dashboard(usuario, callback) {
                     // Armazena o intervalo de tempo
                     inicioIntervalo = `${start.format('YYYY-MM-DD')}`
                     fimIntervalo = `${end.format('YYYY-MM-DD')}`
-                    console.log("Intervalo selecionado: " + `${start.format('DD/MM/YYYY')}` + " " + `${end.format('DD/MM/YYYY')}`)
                     // Envia o intervalo selecionado para a barra lateral (barraLateral)
                     dataAnalisadaLinha.innerHTML = `<h3>${intervaloSelecionado}</h3>`
                 }
@@ -255,7 +254,7 @@ export function dashboard(usuario, callback) {
                 // Chame o callback passando as informações
                 callback(infosOptions)
             } else {
-                alert("Ação e/ou Intervalo de Tempo não foram selecionadas !!!")
+                alert("Ação e/ou Intervalo de Tempo não foram selecionadas!")
             }
         })
 

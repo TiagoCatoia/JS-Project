@@ -11,7 +11,6 @@ export function carregarDados(inicioIntervalo, fimIntervalo, acaoAnalisada, tipo
     try {
         fetch(`http://localhost:8000/historico/geral-data`)
             .then((dadosAcoes) => {
-                console.log("Processando dados...")
                 return dadosAcoes.json()
             })
             .then((dadosAcoes) => {
@@ -26,7 +25,7 @@ export function carregarDados(inicioIntervalo, fimIntervalo, acaoAnalisada, tipo
                 }
                 // Chama a função que vai criar o gráfico
                 if (dadosNoIntervalo.length < 2) {
-                    alert("Não existem dados suficientes neste intervalo de tempo !!!")
+                    alert("Não existem dados suficientes neste intervalo de tempo!")
                     location.reload()
                 }
                 else {
@@ -37,9 +36,6 @@ export function carregarDados(inicioIntervalo, fimIntervalo, acaoAnalisada, tipo
             .catch((error) => {
                 // Informa o usuário sobre o erro
                 alert("Erro na solicitação de dados: " + error)
-            })
-            .finally(() => {
-                console.log(`Processamento terminado`)
             })
     } catch (error) {
         // Informa o usuário sobre o erro

@@ -68,27 +68,13 @@ export function criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada) {
         // Renderiza o gráfico no canvas
         const ctx = canvas.getContext('2d')
         new Chart(ctx, config)
-
+    
     } else if (tipoDoGrafico === "Análise Financeira") { // Se o tipo do gráfico escolhido foi o de Análise Financeira
 
         // Processa os dados para obter a Análise Financeira e as Datas e armazena em um array dataPoints
         let dataPoints = []
 
         for (let i = 0; i < dadosNoIntervalo.length; i++) {
-
-            /*
-            Problema Enfrentado:
-             Quando converto os dados de datas para new Date (new Date(dadosNoIntervalo[i].Date))
-             Isso está caunsando um problema nos dados dos dias representados no gráfico
-             (pega os dados do dia da frente e usa no dia anterior e adiciona dias que não existem nos dados
-              ex:
-                2023-09-04,35.660000,35.799999,35.139999,35.200001,35.200001,5697600
-                2023-09-05,35.060001,37.000000,35.000000,36.820000,36.820000,24924500)
-                **No gráfico o dia 4 usa os dados do dia 5 e mesmo não tendo dia 3 nos dados, ele cria
-                um dia 3 e usa os dados do dia 4.**
-
-             Porém o uso do formato new Date é obrigatório para este gráfico
-            */
 
             const dataPoint = {
                 x: new Date(dadosNoIntervalo[i].Date), // Carrega a data para o eixo x (horizontal)
@@ -112,32 +98,35 @@ export function criaGrafico(dadosNoIntervalo, tipoDoGrafico, acaoAnalisada) {
 
         // Implementação do Gráfico em Vela
         var chart = new CanvasJS.Chart("graficoArea", {
-        title: {
-            text: `Análise Financeira ${acaoAnalisada}`
-        },
-        zoomEnabled: true,
-        axisY: {
-            includeZero: false,
-        },
-        axisX: {
-            interval: 6,
-            intervalType: "day", // Intervalo diário
-            valueFormatString: "MMM-DD", // Formato da data (dia mês ano)
-            labelAngle: -45
-        },
-        data: [
-            {
-                color: "rgb(29%, 25%, 34%)",
-                risingColor: "rgb(25%, 53%, 44%)",
-                fallingColor: "rgb(226, 72, 119)",
-                type: "candlestick",
-                toolTipContent: "<strong>Data:</strong> {x}<br><strong>Abertura:</strong> {y[0]}<br><strong>Máxima:</strong> {y[1]}<br><strong>Mínima:</strong> {y[2]}<br><strong>Fechamento:</strong> {y[3]}",
-                dataPoints: dataPoints  // Use o array de objetos dataPoints
-            }
-        ],
-    })
-    // Renderiza o gráfico
-    chart.render()
+            title: {
+                text: `Análise Financeira ${acaoAnalisada}`
+            },
+            zoomEnabled: true,
+            axisY: {
+                includeZero: false,
+                labelFormatter: function (ação) {
+                    return "R$" + ação.value;
+                }
+            },
+            axisX: {
+                interval: 6,
+                intervalType: "day", // Intervalo diário
+                valueFormatString: "MMM-DD", // Formato da data (dia mês ano)
+                labelAngle: -45
+            },
+            data: [
+                {
+                    color: "rgb(29%, 25%, 34%)",
+                    risingColor: "rgb(25%, 53%, 44%)",
+                    fallingColor: "rgb(226, 72, 119)",
+                    type: "candlestick",
+                    toolTipContent: "<strong>Data:</strong> {x}<br><strong>Abertura:</strong> R${y[0]}<br><strong>Máxima:</strong> R${y[1]}<br><strong>Mínima:</strong> R${y[2]}<br><strong>Fechamento:</strong> R${y[3]}",
+                    dataPoints: dataPoints  // Use o array de objetos dataPoints
+                }
+            ],
+        })
+        // Renderiza o gráfico
+        chart.render()
     }
 }
 
