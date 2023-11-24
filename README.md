@@ -72,12 +72,12 @@ Ao realizar o login, o usuário terá duas opções para representação gráfic
    - Representa os valores de Abertura, Fechamento, Máxima e Mínima, juntamente com a data de cada ação no intervalo de tempo escolhido.
    - Essa análise será visualizada em um Gráfico de Vela.
      
+**Em seguida, o usuário deve escolher entre as ações disponíveis: ITSA3, MGLU3, VALE3, PETR3, BBAS3 e um perído de tempo para analisar os dados e carregar o gráfico**
+
 **Possíveis Limitações**
    - Não será possível alterar a senha do usuário.
    - Não está responsivo.
    - Apesar de ser um Dashboard apresenta apenas 2 gráficos.
-   - Não possui dados de todos os dias dos mesês analisados
-
-**Observações Importantes:**
-- O usuário deve escolher entre as ações disponíveis: ITSA3, MGLU3, VALE3, PETR3, BBAS3.
-- O intervalo de tempo selecionado pelos usuários abrange dados do final do ano de 2022 (10º, 11º e 12º mês) e do ano de 2023 (do mês 1º ao 10º).
+   - O usuário deve escolher entre as ações disponíveis: ITSA3, MGLU3, VALE3, PETR3, BBAS3.
+   - O intervalo de tempo selecionado pelos usuários abrange dados do final do ano de 2022 (10º, 11º e 12º mês) e do ano de 2023 (do mês 1º ao 10º).
+   -  Não possui dados de todos os dias dos mesês analisados
