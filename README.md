@@ -72,11 +72,10 @@ Ao realizar o login, o usuário terá duas opções para representação gráfic
    - Representa os valores de Abertura, Fechamento, Máxima e Mínima, juntamente com a data de cada ação no intervalo de tempo escolhido.
    - Essa análise será visualizada em um Gráfico de Vela.
      
-**Em seguida, 
+**Em seguida**, 
    - o usuário deve escolher entre as ações disponíveis: ITSA3, MGLU3, VALE3, PETR3, BBAS3
    - Um perído de tempo para analisar os dados
    - Carregar o gráfico
-**
 
 **Possíveis Limitações**
    - Não será possível alterar a senha do usuário.
