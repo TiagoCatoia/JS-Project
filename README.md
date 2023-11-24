@@ -77,7 +77,7 @@ Ao realizar o login, o usuário terá duas opções para representação gráfic
    - Um perído de tempo para analisar os dados
    - E carregar o gráfico
 
-# Possíveis Limitações
+## Possíveis Limitações
    - Não será possível alterar a senha do usuário.
    - Não está responsivo.
    - Apesar de ser um Dashboard apresenta apenas 2 gráficos.
