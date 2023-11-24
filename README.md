@@ -61,13 +61,22 @@ Para executar o servidor, siga estas etapas:
 Ao realizar o login, o usuário terá duas opções para representação gráfica dos dados:
 
 1. **Variação Percentual:**
-   - Representa o valor de fechamento da ação subtraído do valor de abertura.
-   - O resultado é dividido pelo valor de abertura e multiplicado por 100 para representar a variação percentual de cada dia no intervalo de tempo definido pelo usuário.
+   - Representa a mudança percentual no valor de uma ação ao longo de um período de tempo específico.
+     No contexto do mercado de ações, ela é frequentemente usada para avaliar como o preço de uma ação flutua em relação ao seu valor de abertura em um determinado intervalo de tempo. 
+   - A variação percentual é calculada subtraindo o valor de abertura do valor de fechamento da ação.
+     O resultado dessa subtração é dividido pelo valor de abertura.
+     O resultado é então multiplicado por 100 para obter a variação percentual.
    - Essa variação percentual será exibida em um Gráfico de Linha.
 
 2. **Análise Financeira:**
    - Representa os valores de Abertura, Fechamento, Máxima e Mínima, juntamente com a data de cada ação no intervalo de tempo escolhido.
    - Essa análise será visualizada em um Gráfico de Vela.
+     
+**Possíveis Limitações**
+   - Não será possível alterar a senha do usuário.
+   - Não está responsivo.
+   - Apesar de ser um Dashboard apresenta apenas 2 gráficos.
+   - Não possui dados de todos os dias dos mesês analisados
 
 **Observações Importantes:**
 - O usuário deve escolher entre as ações disponíveis: ITSA3, MGLU3, VALE3, PETR3, BBAS3.
