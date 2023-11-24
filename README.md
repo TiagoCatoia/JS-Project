@@ -75,9 +75,9 @@ Ao realizar o login, o usuário terá duas opções para representação gráfic
 **Em seguida**, 
    - o usuário deve escolher entre as ações disponíveis: ITSA3, MGLU3, VALE3, PETR3, BBAS3
    - Um perído de tempo para analisar os dados
-   - Carregar o gráfico
+   - E carregar o gráfico
 
-**Possíveis Limitações**
+#Possíveis Limitações
    - Não será possível alterar a senha do usuário.
    - Não está responsivo.
    - Apesar de ser um Dashboard apresenta apenas 2 gráficos.
