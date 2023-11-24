@@ -83,4 +83,4 @@ Ao realizar o login, o usuário terá duas opções para representação gráfic
    - Apesar de ser um Dashboard apresenta apenas 2 gráficos.
    - O usuário deve escolher entre as ações disponíveis: ITSA3, MGLU3, VALE3, PETR3, BBAS3.
    - O intervalo de tempo selecionado pelos usuários abrange dados do final do ano de 2022 (10º, 11º e 12º mês) e do ano de 2023 (do mês 1º ao 10º).
-   -  Não possui dados de todos os dias dos mesês analisados
+   -  Não possui dados de todos os dias dos mêses analisados
